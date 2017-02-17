@@ -12,13 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.nway.myweather.R;
 
 public class CitiesActivity extends AppCompatActivity {
 
     private RecyclerView mCitiesRecycler;
-    private RecyclerView.Adapter mAdaper;
     private Controller controller;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +43,60 @@ public class CitiesActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
+
+        ArrayList<String> dataset = controller.getRecyclerDataSet();
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new RecyclerAdapter(dataset);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
+
+    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
+    {
+        private ArrayList<String> mDataset;
+
+        public class ViewHolder extends RecyclerView.ViewHolder
+        {
+            public TextView myTextView;
+
+            public ViewHolder(View v)
+            {
+                super(v);
+                myTextView = (TextView)v.findViewById(R.id.cities_recycler);
+            }
+        }
+
+        public RecyclerAdapter(ArrayList<String> dataset)
+        {
+            mDataset = dataset;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            // create a new view
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recycler_item, parent, false);
+
+            // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
+
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.myTextView.setText(mDataset.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+    }
+
 }

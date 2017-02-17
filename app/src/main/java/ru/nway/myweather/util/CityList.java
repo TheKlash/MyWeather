@@ -10,8 +10,8 @@ import ru.nway.myweather.entity.Sys;
 
 public final class CityList
 {
-    private static volatile CityList instance;
-    private static ArrayList<String> citiesList;
+    private static CityList instance;
+    private ArrayList<String> citiesList;
 
     private CityList()
     {
@@ -24,7 +24,7 @@ public final class CityList
         citiesList.add("Los Angeles");
     }
 
-    public static class CityListHolder
+    private static class CityListHolder
     {
         private static final CityList listHolder = new CityList();
     }
@@ -34,21 +34,18 @@ public final class CityList
         return CityListHolder.listHolder;
     }
 
-    public static String[] getCitiesList()
+    public static ArrayList<String> getCitiesList()
     {
-        System.out.println("ArrayList size: " + citiesList.size());
-        String[] array = citiesList.toArray(new String[citiesList.size()]);
-        System.out.println("Array size: " + citiesList.size());
-        return array;
+        return instance.citiesList;
     }
 
-    public void addCity(String city)
+    public static void addCity(String city)
     {
-        citiesList.add(city);
+        instance.citiesList.add(city);
     }
 
-    public void removeCity(String city)
+    public static void removeCity(String city)
     {
-        citiesList.remove(city);
+        instance.citiesList.remove(city);
     }
 }

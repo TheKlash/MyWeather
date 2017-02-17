@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.nway.myweather.R;
@@ -15,17 +16,17 @@ import ru.nway.myweather.util.CityList;
  * Created by Klash on 15.02.2017.
  */
 
-public class Controller
+class Controller
 {
     private CityList cityList;
 
-    public Controller()
+    Controller()
     {
         cityList = CityList.getInstance();
     }
 
-    public static String[] getRecyclerDataSet()
+    ArrayList<String> getRecyclerDataSet()
     {
-        return CityList.getCitiesList();
+        return cityList.getCitiesList();
     }
 }
