@@ -45,7 +45,6 @@ public class CitiesActivity extends AppCompatActivity {
         });
 
         ArrayList<String> dataset = controller.getRecyclerDataSet();
-        System.out.println("DATASET SIZE: " + dataset.size());
         for (String s: dataset)
         {
             System.out.println(s);
