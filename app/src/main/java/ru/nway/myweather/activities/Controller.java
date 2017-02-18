@@ -1,16 +1,8 @@
 package ru.nway.myweather.activities;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import ru.nway.myweather.R;
-import ru.nway.myweather.util.CityList;
+import ru.nway.myweather.servicies.DataService;
 
 /**
  * Created by Klash on 15.02.2017.
@@ -18,15 +10,15 @@ import ru.nway.myweather.util.CityList;
 
 class Controller
 {
-    private CityList cityList;
+    private DataService dataService;
 
     Controller()
     {
-        cityList = CityList.getInstance();
+        dataService = new DataService();
     }
 
     ArrayList<String> getRecyclerDataSet()
     {
-        return cityList.getCitiesList();
+        return dataService.loadFile();
     }
 }

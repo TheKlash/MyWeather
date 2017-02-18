@@ -44,9 +44,13 @@ public class CitiesActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
-
         ArrayList<String> dataset = controller.getRecyclerDataSet();
+        System.out.println("DATASET SIZE: " + dataset.size());
+        for (String s: dataset)
+        {
+            System.out.println(s);
+        }
+        mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -67,7 +71,7 @@ public class CitiesActivity extends AppCompatActivity {
             public ViewHolder(View v)
             {
                 super(v);
-                myTextView = (TextView)v.findViewById(R.id.cities_recycler);
+                myTextView = (TextView)v;
             }
         }
 
