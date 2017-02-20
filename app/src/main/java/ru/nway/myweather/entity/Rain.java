@@ -4,7 +4,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Rain implements Serializable
+class Rain implements Serializable
 {
 
     @SerializedName("3h")

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coord implements Serializable
+class Coord implements Serializable
 {
 
     @SerializedName("lon")

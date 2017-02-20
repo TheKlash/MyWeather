@@ -1,5 +1,9 @@
 package ru.nway.myweather.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +25,6 @@ import ru.nway.myweather.R;
 
 public class CitiesActivity extends AppCompatActivity {
 
-    private RecyclerView mCitiesRecycler;
     private Controller controller;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -43,7 +46,6 @@ public class CitiesActivity extends AppCompatActivity {
             }
         });
 
-
         mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
 
         mAdapter = new RecyclerAdapter(controller.getRecyclerDataSet());
@@ -51,6 +53,7 @@ public class CitiesActivity extends AppCompatActivity {
 
         mLayoutManager = new LinearLayoutManager(App.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
 
     }
 
@@ -62,19 +65,33 @@ public class CitiesActivity extends AppCompatActivity {
         {
             public TextView myTextView;
             public CardView cardView;
+            private final Context context;
+
+            private View.OnClickListener mOnclickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView clickedTextView = (TextView)v.findViewById(R.id.item_text);
+                    String cityName = clickedTextView.getText().toString();
+
+                    Intent intent = new Intent(context, WeatherActivity.class);
+                    intent.putExtra("cityName", cityName);
+                    context.startActivity(intent);
+                }
+            };
 
             public ViewHolder(View v)
             {
                 super(v);
+                v.setOnClickListener(mOnclickListener);
                 cardView = (CardView)v.findViewById(R.id.cardViewItem);
                 myTextView = (TextView)v.findViewById(R.id.item_text);
+                context = v.getContext();
             }
         }
 
         public RecyclerAdapter(ArrayList<String> dataset)
         {
             mDataset = dataset;
-
         }
 
         @Override

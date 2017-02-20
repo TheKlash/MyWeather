@@ -4,7 +4,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sys implements Serializable
+class Sys implements Serializable
 {
 
     @SerializedName("type")
