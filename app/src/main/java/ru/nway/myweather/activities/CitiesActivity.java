@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 
 public class CitiesActivity extends AppCompatActivity {
@@ -32,9 +34,6 @@ public class CitiesActivity extends AppCompatActivity {
 
         controller = new Controller();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,39 +43,38 @@ public class CitiesActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> dataset = controller.getRecyclerDataSet();
-        for (String s: dataset)
-        {
-            System.out.println(s);
-        }
+
         mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new RecyclerAdapter(dataset);
+        mAdapter = new RecyclerAdapter(controller.getRecyclerDataSet());
         mRecyclerView.setAdapter(mAdapter);
+
+        mLayoutManager = new LinearLayoutManager(App.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
     }
 
-    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
+    private static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
     {
         private ArrayList<String> mDataset;
 
-        public class ViewHolder extends RecyclerView.ViewHolder
+        public static class ViewHolder extends RecyclerView.ViewHolder
         {
             public TextView myTextView;
+            public CardView cardView;
 
             public ViewHolder(View v)
             {
                 super(v);
-                myTextView = (TextView)v;
+                cardView = (CardView)v.findViewById(R.id.cardViewItem);
+                myTextView = (TextView)v.findViewById(R.id.item_text);
             }
         }
 
         public RecyclerAdapter(ArrayList<String> dataset)
         {
             mDataset = dataset;
+
         }
 
         @Override
