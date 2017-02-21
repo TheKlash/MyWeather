@@ -43,7 +43,7 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
         TextView mWeatherView = (TextView)findViewById(R.id.weatherView);
-        mWeatherView.setText(forecast.getList().get(0).getMain().getTemp().toString());
+        mWeatherView.setText(forecast.getMessage());
 
     }
 
