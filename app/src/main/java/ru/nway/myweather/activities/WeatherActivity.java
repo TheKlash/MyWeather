@@ -7,15 +7,17 @@ import android.widget.TextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.entity.Forecast;
+import ru.nway.myweather.ententity.Weather;
+import ru.nway.myweather.ententity.WeatherData;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.servicies.WeatherApi;
 
 public class WeatherActivity extends AppCompatActivity {
 
     private WeatherApi api;
-    private Forecast forecast;
+    private WeatherData forecast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +29,21 @@ public class WeatherActivity extends AppCompatActivity {
         mCityName.setText(cityName);
 
         api = ConnectionService.createService(WeatherApi.class);
-        api.getForecast(cityName).enqueue(new Callback<Forecast>() {
+        api.getForecast(cityName, App.getAppKey()).enqueue(new Callback<WeatherData>() {
             @Override
-            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
-                forecast = response.body();
+            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                if (response.isSuccessful())
+                    forecast = response.body();
             }
 
             @Override
-            public void onFailure(Call<Forecast> call, Throwable t) {
+            public void onFailure(Call<WeatherData> call, Throwable t) {
                 System.out.print("CALL FAILED");
             }
         });
 
         TextView mWeatherView = (TextView)findViewById(R.id.weatherView);
-        mWeatherView.setText(forecast.getMain().getTemp().toString());
+        mWeatherView.setText(forecast.getList().get(0).getMain().getTemp().toString());
 
     }
 

@@ -21,9 +21,16 @@ public class App extends Application
         return instance.getApplicationContext();
     }
 
+    private static final String APP_KEY = "573f56d1fe48cd84a3d961d79a6dca99";
+
     @Override
     public void onCreate() {
         instance = this;
         super.onCreate();
+    }
+
+    public static String getAppKey()
+    {
+        return APP_KEY;
     }
 }
