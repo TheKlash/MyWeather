@@ -46,75 +46,15 @@ public class CitiesActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.cities_recycler);
+        mRecyclerView = (RecyclerView) findViewById(R.id.cities_recycler);
+        ArrayList<String> mDataset = controller.getRecyclerDataSet();
 
-        mAdapter = new RecyclerAdapter(controller.getRecyclerDataSet());
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(controller.getRecylerAdapter(mDataset));
 
         mLayoutManager = new LinearLayoutManager(App.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
     }
-
-    private static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
-    {
-        private ArrayList<String> mDataset;
-
-        public static class ViewHolder extends RecyclerView.ViewHolder
-        {
-            public TextView myTextView;
-            public CardView cardView;
-            private final Context context;
-
-            private View.OnClickListener mOnclickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView clickedTextView = (TextView)v.findViewById(R.id.item_text);
-                    String cityName = clickedTextView.getText().toString();
-
-                    Intent intent = new Intent(context, WeatherActivity.class);
-                    intent.putExtra("cityName", cityName);
-                    context.startActivity(intent);
-                }
-            };
-
-            public ViewHolder(View v)
-            {
-                super(v);
-                v.setOnClickListener(mOnclickListener);
-                cardView = (CardView)v.findViewById(R.id.cardViewItem);
-                myTextView = (TextView)v.findViewById(R.id.item_text);
-                context = v.getContext();
-            }
-        }
-
-        public RecyclerAdapter(ArrayList<String> dataset)
-        {
-            mDataset = dataset;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            // create a new view
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recycler_item, parent, false);
-
-            // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
-
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.myTextView.setText(mDataset.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mDataset.size();
-        }
-    }
-
 }
+

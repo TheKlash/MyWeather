@@ -9,8 +9,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.ententity.Weather;
-import ru.nway.myweather.ententity.WeatherData;
+import ru.nway.myweather.entity.WeatherData;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.servicies.WeatherApi;
 
@@ -43,7 +42,7 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
         TextView mWeatherView = (TextView)findViewById(R.id.weatherView);
-        mWeatherView.setText(forecast.getMessage());
+        //mWeatherView.setText(forecast.getMessage());
 
     }
 
