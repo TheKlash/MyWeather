@@ -1,52 +1,29 @@
 
 package ru.nway.myweather.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Main implements Parcelable
+public class Main implements Serializable
 {
 
     @SerializedName("temp")
     @Expose
-    private Double temp;
+    private double temp;
     @SerializedName("pressure")
     @Expose
-    private Integer pressure;
+    private int pressure;
     @SerializedName("humidity")
     @Expose
-    private Integer humidity;
+    private int humidity;
     @SerializedName("temp_min")
     @Expose
-    private Double tempMin;
+    private double tempMin;
     @SerializedName("temp_max")
     @Expose
-    private Double tempMax;
-    public final static Parcelable.Creator<Main> CREATOR = new Creator<Main>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Main createFromParcel(Parcel in) {
-            Main instance = new Main();
-            instance.temp = ((Double) in.readValue((Double.class.getClassLoader())));
-            instance.pressure = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.humidity = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.tempMin = ((Double) in.readValue((Double.class.getClassLoader())));
-            instance.tempMax = ((Double) in.readValue((Double.class.getClassLoader())));
-            return instance;
-        }
-
-        public Main[] newArray(int size) {
-            return (new Main[size]);
-        }
-
-    }
-    ;
+    private double tempMax;
+    private final static long serialVersionUID = 1127229646215128693L;
 
     /**
      * No args constructor for use in serialization
@@ -63,7 +40,7 @@ public class Main implements Parcelable
      * @param temp
      * @param tempMin
      */
-    public Main(Double temp, Integer pressure, Integer humidity, Double tempMin, Double tempMax) {
+    public Main(double temp, int pressure, int humidity, double tempMin, double tempMax) {
         super();
         this.temp = temp;
         this.pressure = pressure;
@@ -72,56 +49,69 @@ public class Main implements Parcelable
         this.tempMax = tempMax;
     }
 
-    public Double getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(Double temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
-    public Integer getPressure() {
+    public Main withTemp(double temp) {
+        this.temp = temp;
+        return this;
+    }
+
+    public int getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(int pressure) {
         this.pressure = pressure;
     }
 
-    public Integer getHumidity() {
+    public Main withPressure(int pressure) {
+        this.pressure = pressure;
+        return this;
+    }
+
+    public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Integer humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
-    public Double getTempMin() {
+    public Main withHumidity(int humidity) {
+        this.humidity = humidity;
+        return this;
+    }
+
+    public double getTempMin() {
         return tempMin;
     }
 
-    public void setTempMin(Double tempMin) {
+    public void setTempMin(double tempMin) {
         this.tempMin = tempMin;
     }
 
-    public Double getTempMax() {
+    public Main withTempMin(double tempMin) {
+        this.tempMin = tempMin;
+        return this;
+    }
+
+    public double getTempMax() {
         return tempMax;
     }
 
-    public void setTempMax(Double tempMax) {
+    public void setTempMax(double tempMax) {
         this.tempMax = tempMax;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(temp);
-        dest.writeValue(pressure);
-        dest.writeValue(humidity);
-        dest.writeValue(tempMin);
-        dest.writeValue(tempMax);
-    }
-
-    public int describeContents() {
-        return  0;
+    public Main withTempMax(double tempMax) {
+        this.tempMax = tempMax;
+        return this;
     }
 
 }

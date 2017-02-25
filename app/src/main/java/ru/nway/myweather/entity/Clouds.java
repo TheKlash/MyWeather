@@ -1,36 +1,17 @@
 
 package ru.nway.myweather.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Clouds implements Parcelable
+public class Clouds implements Serializable
 {
 
     @SerializedName("all")
     @Expose
-    private Integer all;
-    public final static Parcelable.Creator<Clouds> CREATOR = new Creator<Clouds>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Clouds createFromParcel(Parcel in) {
-            Clouds instance = new Clouds();
-            instance.all = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            return instance;
-        }
-
-        public Clouds[] newArray(int size) {
-            return (new Clouds[size]);
-        }
-
-    }
-    ;
+    private int all;
+    private final static long serialVersionUID = 6182140313455604210L;
 
     /**
      * No args constructor for use in serialization
@@ -43,25 +24,22 @@ public class Clouds implements Parcelable
      * 
      * @param all
      */
-    public Clouds(Integer all) {
+    public Clouds(int all) {
         super();
         this.all = all;
     }
 
-    public Integer getAll() {
+    public int getAll() {
         return all;
     }
 
-    public void setAll(Integer all) {
+    public void setAll(int all) {
         this.all = all;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(all);
-    }
-
-    public int describeContents() {
-        return  0;
+    public Clouds withAll(int all) {
+        this.all = all;
+        return this;
     }
 
 }

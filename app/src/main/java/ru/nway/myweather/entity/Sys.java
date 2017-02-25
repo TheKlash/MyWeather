@@ -1,56 +1,32 @@
 
 package ru.nway.myweather.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sys implements Parcelable
+public class Sys implements Serializable
 {
 
     @SerializedName("type")
     @Expose
-    private Integer type;
+    private int type;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private int id;
     @SerializedName("message")
     @Expose
-    private Double message;
+    private double message;
     @SerializedName("country")
     @Expose
     private String country;
     @SerializedName("sunrise")
     @Expose
-    private Integer sunrise;
+    private int sunrise;
     @SerializedName("sunset")
     @Expose
-    private Integer sunset;
-    public final static Parcelable.Creator<Sys> CREATOR = new Creator<Sys>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Sys createFromParcel(Parcel in) {
-            Sys instance = new Sys();
-            instance.type = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.message = ((Double) in.readValue((Double.class.getClassLoader())));
-            instance.country = ((String) in.readValue((String.class.getClassLoader())));
-            instance.sunrise = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.sunset = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            return instance;
-        }
-
-        public Sys[] newArray(int size) {
-            return (new Sys[size]);
-        }
-
-    }
-    ;
+    private int sunset;
+    private final static long serialVersionUID = 6559051648973642720L;
 
     /**
      * No args constructor for use in serialization
@@ -68,7 +44,7 @@ public class Sys implements Parcelable
      * @param type
      * @param country
      */
-    public Sys(Integer type, Integer id, Double message, String country, Integer sunrise, Integer sunset) {
+    public Sys(int type, int id, double message, String country, int sunrise, int sunset) {
         super();
         this.type = type;
         this.id = id;
@@ -78,28 +54,43 @@ public class Sys implements Parcelable
         this.sunset = sunset;
     }
 
-    public Integer getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    public Integer getId() {
+    public Sys withType(int type) {
+        this.type = type;
+        return this;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Double getMessage() {
+    public Sys withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public double getMessage() {
         return message;
     }
 
-    public void setMessage(Double message) {
+    public void setMessage(double message) {
         this.message = message;
+    }
+
+    public Sys withMessage(double message) {
+        this.message = message;
+        return this;
     }
 
     public String getCountry() {
@@ -110,33 +101,35 @@ public class Sys implements Parcelable
         this.country = country;
     }
 
-    public Integer getSunrise() {
+    public Sys withCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public int getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(Integer sunrise) {
+    public void setSunrise(int sunrise) {
         this.sunrise = sunrise;
     }
 
-    public Integer getSunset() {
+    public Sys withSunrise(int sunrise) {
+        this.sunrise = sunrise;
+        return this;
+    }
+
+    public int getSunset() {
         return sunset;
     }
 
-    public void setSunset(Integer sunset) {
+    public void setSunset(int sunset) {
         this.sunset = sunset;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(type);
-        dest.writeValue(id);
-        dest.writeValue(message);
-        dest.writeValue(country);
-        dest.writeValue(sunrise);
-        dest.writeValue(sunset);
-    }
-
-    public int describeContents() {
-        return  0;
+    public Sys withSunset(int sunset) {
+        this.sunset = sunset;
+        return this;
     }
 
 }

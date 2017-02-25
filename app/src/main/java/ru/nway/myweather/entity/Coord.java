@@ -1,40 +1,20 @@
 
 package ru.nway.myweather.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coord implements Parcelable
+public class Coord implements Serializable
 {
 
     @SerializedName("lon")
     @Expose
-    private Double lon;
+    private double lon;
     @SerializedName("lat")
     @Expose
-    private Double lat;
-    public final static Parcelable.Creator<Coord> CREATOR = new Creator<Coord>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Coord createFromParcel(Parcel in) {
-            Coord instance = new Coord();
-            instance.lon = ((Double) in.readValue((Double.class.getClassLoader())));
-            instance.lat = ((Double) in.readValue((Double.class.getClassLoader())));
-            return instance;
-        }
-
-        public Coord[] newArray(int size) {
-            return (new Coord[size]);
-        }
-
-    }
-    ;
+    private double lat;
+    private final static long serialVersionUID = 8927139024875292217L;
 
     /**
      * No args constructor for use in serialization
@@ -48,35 +28,36 @@ public class Coord implements Parcelable
      * @param lon
      * @param lat
      */
-    public Coord(Double lon, Double lat) {
+    public Coord(double lon, double lat) {
         super();
         this.lon = lon;
         this.lat = lat;
     }
 
-    public Double getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(Double lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public Double getLat() {
+    public Coord withLon(double lon) {
+        this.lon = lon;
+        return this;
+    }
+
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(lon);
-        dest.writeValue(lat);
-    }
-
-    public int describeContents() {
-        return  0;
+    public Coord withLat(double lat) {
+        this.lat = lat;
+        return this;
     }
 
 }

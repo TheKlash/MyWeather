@@ -11,8 +11,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.entity.MainWeatherData;
+import ru.nway.myweather.entity.Weather;
+import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.servicies.DataService;
+import ru.nway.myweather.servicies.WeatherApi;
 
 /**
  * Created by Klash on 15.02.2017.
@@ -21,6 +29,13 @@ import ru.nway.myweather.servicies.DataService;
 class Controller
 {
     private DataService dataService;
+    private static WeatherApi api;
+    private static MainWeatherData data;
+
+    static
+    {
+        api = ConnectionService.createService(WeatherApi.class);
+    }
 
     Controller()
     {
@@ -95,6 +110,27 @@ class Controller
         public int getItemCount() {
             return mDataset.size();
         }
+    }
+
+    public static MainWeatherData callServer(String city)
+    {
+
+        api.getForecast(city, App.getAppKey()).enqueue(new Callback<MainWeatherData>() {
+            @Override
+            public void onResponse(Call<MainWeatherData> call, Response<MainWeatherData> response) {
+                if (response.isSuccessful())
+                {
+                    data = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainWeatherData> call, Throwable t) {
+
+            }
+        });
+
+        return data;
     }
 
 }

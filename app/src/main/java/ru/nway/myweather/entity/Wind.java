@@ -1,40 +1,20 @@
 
 package ru.nway.myweather.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Wind implements Parcelable
+public class Wind implements Serializable
 {
 
     @SerializedName("speed")
     @Expose
-    private Integer speed;
+    private double speed;
     @SerializedName("deg")
     @Expose
-    private Integer deg;
-    public final static Parcelable.Creator<Wind> CREATOR = new Creator<Wind>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Wind createFromParcel(Parcel in) {
-            Wind instance = new Wind();
-            instance.speed = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.deg = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            return instance;
-        }
-
-        public Wind[] newArray(int size) {
-            return (new Wind[size]);
-        }
-
-    }
-    ;
+    private int deg;
+    private final static long serialVersionUID = 3234071140722704718L;
 
     /**
      * No args constructor for use in serialization
@@ -48,35 +28,36 @@ public class Wind implements Parcelable
      * @param speed
      * @param deg
      */
-    public Wind(Integer speed, Integer deg) {
+    public Wind(double speed, int deg) {
         super();
         this.speed = speed;
         this.deg = deg;
     }
 
-    public Integer getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    public Integer getDeg() {
+    public Wind withSpeed(double speed) {
+        this.speed = speed;
+        return this;
+    }
+
+    public int getDeg() {
         return deg;
     }
 
-    public void setDeg(Integer deg) {
+    public void setDeg(int deg) {
         this.deg = deg;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(speed);
-        dest.writeValue(deg);
-    }
-
-    public int describeContents() {
-        return  0;
+    public Wind withDeg(int deg) {
+        this.deg = deg;
+        return this;
     }
 
 }
