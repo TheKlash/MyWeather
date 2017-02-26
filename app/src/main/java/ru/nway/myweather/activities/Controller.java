@@ -29,13 +29,7 @@ import ru.nway.myweather.servicies.WeatherApi;
 class Controller
 {
     private DataService dataService;
-    private static WeatherApi api;
     private static MainWeatherData data;
-
-    static
-    {
-        api = ConnectionService.createService(WeatherApi.class);
-    }
 
     Controller()
     {
@@ -111,26 +105,4 @@ class Controller
             return mDataset.size();
         }
     }
-
-    public static MainWeatherData callServer(String city)
-    {
-
-        api.getForecast(city, App.getAppKey()).enqueue(new Callback<MainWeatherData>() {
-            @Override
-            public void onResponse(Call<MainWeatherData> call, Response<MainWeatherData> response) {
-                if (response.isSuccessful())
-                {
-                    data = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MainWeatherData> call, Throwable t) {
-
-            }
-        });
-
-        return data;
-    }
-
 }

@@ -7,7 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.nway.myweather.converters.MainWeatherDataCoverter;
+import ru.nway.myweather.entity.MainWeatherDataDeserializer;
 import ru.nway.myweather.entity.MainWeatherData;
 
 /**
@@ -42,7 +42,7 @@ public class ConnectionService
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         // Adding custom deserializers
-        gsonBuilder.registerTypeAdapter(MainWeatherData.class, new MainWeatherDataCoverter());
+        gsonBuilder.registerTypeAdapter(MainWeatherData.class, new MainWeatherDataDeserializer());
         Gson myGson = gsonBuilder.create();
 
         return GsonConverterFactory.create(myGson);
