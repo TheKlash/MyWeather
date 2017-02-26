@@ -1,5 +1,5 @@
 
-package ru.nway.myweather.entity;
+package ru.nway.myweather.model.weather;
 
 import java.io.Serializable;
 import java.util.List;

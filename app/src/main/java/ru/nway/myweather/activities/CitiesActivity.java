@@ -54,7 +54,6 @@ public class CitiesActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(App.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
     }
 }
 

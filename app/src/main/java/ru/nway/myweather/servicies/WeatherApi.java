@@ -3,7 +3,7 @@ package ru.nway.myweather.servicies;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import ru.nway.myweather.entity.MainWeatherData;
+import ru.nway.myweather.model.weather.MainWeatherData;
 
 
 /**

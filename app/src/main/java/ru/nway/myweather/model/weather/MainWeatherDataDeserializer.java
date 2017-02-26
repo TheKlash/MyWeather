@@ -1,4 +1,4 @@
-package ru.nway.myweather.entity;
+package ru.nway.myweather.model.weather;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

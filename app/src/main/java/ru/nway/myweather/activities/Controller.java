@@ -11,16 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.entity.MainWeatherData;
-import ru.nway.myweather.entity.Weather;
-import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.servicies.DataService;
-import ru.nway.myweather.servicies.WeatherApi;
 
 /**
  * Created by Klash on 15.02.2017.
@@ -29,7 +21,6 @@ import ru.nway.myweather.servicies.WeatherApi;
 class Controller
 {
     private DataService dataService;
-    private static MainWeatherData data;
 
     Controller()
     {
@@ -85,11 +76,9 @@ class Controller
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            // create a new view
+
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_item, parent, false);
-
-            // тут можно программно менять атрибуты лэйаута (size, margins, paddings и др.)
 
             ViewHolder vh = new ViewHolder(v);
             return vh;

@@ -11,22 +11,55 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ru.nway.myweather.activities.WeatherActivity">
 
-    <TextView
-        android:text="Weather"
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/weatherView"
-        android:textSize="36sp"
+        app:srcCompat="@drawable/sunny"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/cityName" />
+        android:id="@+id/mWeatherImageButton"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:text="Temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mWeatherImageButton"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/temperatureTextView"
+        android:textSize="36sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/weatherTextView"
+        android:textSize="30sp"
+        android:layout_below="@+id/temperatureTextView"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeTextView"
+        android:textSize="30sp"
+        android:layout_below="@+id/cityTextView"
+        android:textAlignment="viewEnd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:text="City"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cityName"
+        android:id="@+id/cityTextView"
         android:textSize="36sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="viewEnd" />
 
 </RelativeLayout>
