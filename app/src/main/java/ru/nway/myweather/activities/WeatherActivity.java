@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +28,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mWeatherView;
     private TextView mTimeTextView;
     private TextView mTemperatureTextView;
-    private ImageButton mImageButton;
+    private ImageView mImage;
     private TextView mCityTextView;
     private String cityName;
 
@@ -37,6 +38,8 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
+
+
         cityName = getIntent().getStringExtra("cityName");
 
         mWeatherView = (TextView)findViewById(R.id.weatherTextView);
@@ -44,8 +47,8 @@ public class WeatherActivity extends AppCompatActivity {
         mTimeTextView = (TextView)findViewById(R.id.timeTextView);
         mTemperatureTextView = (TextView)findViewById(R.id.temperatureTextView);
 
-        mImageButton = (ImageButton)findViewById(R.id.mWeatherImageButton);
-        mImageButton.setOnClickListener(imageButtonOnClickListener);
+        mImage = (ImageView) findViewById(R.id.imageView);
+        mImage.setOnClickListener(imageButtonOnClickListener);
 
         weatherApi = ConnectionService.createService(WeatherApi.class);
     }
@@ -67,7 +70,7 @@ public class WeatherActivity extends AppCompatActivity {
     };
 
 
-    private void callTimezoneServer(double lat, double lon)
+    private void callTimezoneServer(double lat, double lon, int sunrise, int susnset)
     {
         timezoneAPI = ConnectionService.createService(TimezoneAPI.class);
 
@@ -78,6 +81,7 @@ public class WeatherActivity extends AppCompatActivity {
             {
                 TimezoneData time = response.body();
                 mTimeTextView.setText(time.getFormatted());
+                //TODO: реализовать смену дизайна по времени суток
             }
 
             @Override
@@ -96,8 +100,63 @@ public class WeatherActivity extends AppCompatActivity {
             {
                 forecast = response.body();
 
+                String icon = forecast.getWeather().get(0).getIcon();
+
+                switch(icon)
+                {
+                    case "01d":
+                        mImage.setImageResource(R.drawable.sunny);
+                        break;
+                    case "02d":
+                        mImage.setImageResource(R.drawable.partly_cloudy_day);
+                        break;
+                    case "03d":
+                        mImage.setImageResource(R.drawable.cloudy);
+                        break;
+                    case "03n":
+                        mImage.setImageResource(R.drawable.cloudy);
+                        break;
+                    case "04d":
+                        mImage.setImageResource(R.drawable.overcast);
+                        break;
+                    case "04n":
+                        mImage.setImageResource(R.drawable.overcast);
+                        break;
+                    case "09d":
+                        mImage.setImageResource(R.drawable.heavy_rain);
+                        break;
+                    case "09n":
+                        mImage.setImageResource(R.drawable.heavy_rain);
+                        break;
+                    case "10d":
+                        mImage.setImageResource(R.drawable.heavy_rain_swrs_day);
+                        break;
+                    case "10n":
+                        mImage.setImageResource(R.drawable.heavy_rain_rwrs_night);
+                        break;
+                    case "11d":
+                        mImage.setImageResource(R.drawable.cloud_rain_thunder);
+                        break;
+                    case "11n":
+                        mImage.setImageResource(R.drawable.cloud_rain_thunder);
+                        break;
+                    case "13d":
+                        mImage.setImageResource(R.drawable.heavy_snow_swrs_day);
+                        break;
+                    case "13n":
+                        mImage.setImageResource(R.drawable.heavy_snow_swr_night);
+                        break;
+                    case "50d":
+                        mImage.setImageResource(R.drawable.fog);
+                        break;
+                    case "50n":
+                        mImage.setImageResource(R.drawable.fog);
+                        break;
+                }
+
                 mCityTextView.setText(forecast.getName() +", " + forecast.getSys().getCountry().toUpperCase());
-                callTimezoneServer(forecast.getCoord().getLat(), forecast.getCoord().getLon());
+                callTimezoneServer(forecast.getCoord().getLat(), forecast.getCoord().getLon(),
+                        forecast.getSys().getSunrise(), forecast.getSys().getSunset());
 
                 Double celsiumTemp = forecast.getMain().getTemp() - 273.1;
                 String tempString;
