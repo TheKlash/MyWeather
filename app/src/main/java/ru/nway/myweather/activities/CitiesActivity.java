@@ -47,13 +47,20 @@ public class CitiesActivity extends AppCompatActivity {
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.cities_recycler);
+        setRecycler();
+
+    }
+
+
+
+    private void setRecycler()
+    {
         ArrayList<String> mDataset = controller.getRecyclerDataSet();
 
         mRecyclerView.setAdapter(controller.getRecylerAdapter(mDataset));
 
         mLayoutManager = new LinearLayoutManager(App.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
     }
 }
 
