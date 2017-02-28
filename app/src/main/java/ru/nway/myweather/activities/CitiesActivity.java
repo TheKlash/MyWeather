@@ -35,8 +35,8 @@ public class CitiesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", addCityListener).show();
+                Snackbar.make(view, "Add city", Snackbar.LENGTH_LONG)
+                        .setAction("Add", addCityListener).show();
             }
         });
 
