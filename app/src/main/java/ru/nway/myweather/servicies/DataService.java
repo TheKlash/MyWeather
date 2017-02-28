@@ -1,12 +1,15 @@
 package ru.nway.myweather.servicies;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,12 +23,23 @@ import ru.nway.myweather.App;
 public class DataService
 {
     private static final String FILENAME = "Cities";
-    private final Context CONTEXT = App.getContext();
+    private static ArrayList<String> citiesList;
 
-    public ArrayList<String> loadFile()
+    static
     {
+        citiesList = new ArrayList<>();
+        loadFile();
+    }
+
+    public static ArrayList<String> getCitiesList()
+    {
+        return citiesList;
+    }
+
+    public static void loadFile()
+    {
+        Context CONTEXT = App.getContext();
         FileInputStream is;
-        ArrayList<String> citiesList = new ArrayList<>();;
 
         try
         {
@@ -66,19 +80,51 @@ public class DataService
                 System.out.println("CHECK FILE DIRECTORY!!!!");
             }
 
-            citiesList = loadFile();
+            loadFile();
         }
         catch (IOException ioe)
         {
             ioe.printStackTrace();
         }
-
-        return citiesList;
     }
 
-    public ArrayList<String> saveToFile()
+    public static void saveToFile(String city)
     {
-        //Будет сохранять в файл а потом возвращать loadFile();
-        return null;
+        Context CONTEXT = App.getContext();
+        citiesList.add(city);
+        String write = city + "\n";
+        try
+        {
+            FileOutputStream os = CONTEXT.openFileOutput(FILENAME, Context.MODE_APPEND);
+            os.write(write.getBytes());
+            os.close();
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeCity(String city)
+    {
+        Context CONTEXT = App.getContext();
+        citiesList.remove(city);
+        try
+        {
+            FileOutputStream os = CONTEXT.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            for (String cityName: citiesList)
+            {
+                String write = cityName + "\n";
+                os.write(write.getBytes());
+            }
+
+            os.close();
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

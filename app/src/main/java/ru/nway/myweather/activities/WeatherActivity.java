@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +60,11 @@ public class WeatherActivity extends AppCompatActivity {
         Toast.makeText(this, "Weather for " + cityName + " updated", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     View.OnClickListener imageButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -68,7 +72,6 @@ public class WeatherActivity extends AppCompatActivity {
             Toast.makeText(App.getContext(), "Weather for " + cityName + " updated", Toast.LENGTH_SHORT).show();
         }
     };
-
 
     private void callTimezoneServer(double lat, double lon, int sunrise, int susnset)
     {
