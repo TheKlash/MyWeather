@@ -1,12 +1,16 @@
 package ru.nway.myweather.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.ref.ReferenceQueue;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,6 +22,7 @@ import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.servicies.TimezoneAPI;
 import ru.nway.myweather.servicies.WeatherApi;
+import ru.nway.myweather.util.RequestCode;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -30,21 +35,22 @@ public class WeatherActivity extends AppCompatActivity {
     private ImageView mImage;
     private TextView mCityTextView;
     private String cityName;
-
+    private Button mBackButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-
-
-
         cityName = getIntent().getStringExtra("cityName");
 
         mWeatherView = (TextView)findViewById(R.id.weatherTextView);
         mCityTextView = (TextView)findViewById(R.id.cityTextView);
         mTimeTextView = (TextView)findViewById(R.id.timeTextView);
         mTemperatureTextView = (TextView)findViewById(R.id.temperatureTextView);
+
+        mBackButton = (Button)findViewById(R.id.backButton);
+        mBackButton.setOnClickListener(backListener);
 
         mImage = (ImageView) findViewById(R.id.imageView);
         mImage.setOnClickListener(imageButtonOnClickListener);
@@ -179,4 +185,13 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
     }
+
+    View.OnClickListener backListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            setResult(RequestCode.REQUEST_CODE_NEW_CITY);
+            finish();
+        }
+    };
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.util.RequestCode;
 
 public class CitiesActivity extends AppCompatActivity {
 
@@ -55,12 +56,27 @@ public class CitiesActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(!data.getStringExtra("city").equals(""))
+
+        switch(resultCode)
         {
-            Toast.makeText(this, data.getStringExtra("city"), Toast.LENGTH_SHORT).show();
-            Controller.addCity(data.getStringExtra("city"));
-            setRecycler();
+            case RequestCode.REQUEST_CODE_WEATHER:
+            {
+                //Пока ничего
+                break;
+            }
+            case RequestCode.REQUEST_CODE_NEW_CITY:
+            {
+                if(!data.getStringExtra("city").equals(""))
+                {
+                    Toast.makeText(this, data.getStringExtra("city"), Toast.LENGTH_SHORT).show();
+                    Controller.addCity(data.getStringExtra("city"));
+                    setRecycler();
+                }
+                break;
+            }
         }
+
+
     }
 
     private void setRecycler()
