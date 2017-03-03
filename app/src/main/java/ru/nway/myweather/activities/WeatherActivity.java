@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.ref.ReferenceQueue;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,7 +17,7 @@ import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 import ru.nway.myweather.model.timezone.TimezoneData;
 import ru.nway.myweather.model.weather.MainWeatherData;
-import ru.nway.myweather.servicies.ConnectionService;
+import ru.nway.myweather.servicies.RetrofitService;
 import ru.nway.myweather.servicies.TimezoneAPI;
 import ru.nway.myweather.servicies.WeatherApi;
 import ru.nway.myweather.util.RequestCode;
@@ -55,7 +53,7 @@ public class WeatherActivity extends AppCompatActivity {
         mImage = (ImageView) findViewById(R.id.imageView);
         mImage.setOnClickListener(imageButtonOnClickListener);
 
-        weatherApi = ConnectionService.createService(WeatherApi.class);
+        weatherApi = RetrofitService.createService(WeatherApi.class);
     }
 
     @Override
@@ -81,7 +79,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void callTimezoneServer(double lat, double lon, int sunrise, int susnset)
     {
-        timezoneAPI = ConnectionService.createService(TimezoneAPI.class);
+        timezoneAPI = RetrofitService.createService(TimezoneAPI.class);
 
         timezoneAPI.getLocalTime("http://api.timezonedb.com/v2/get-time-zone", App.getTimezoneAppKey(), "json",
                "position" , lat, lon).enqueue(new Callback<TimezoneData>() {
@@ -116,8 +114,14 @@ public class WeatherActivity extends AppCompatActivity {
                     case "01d":
                         mImage.setImageResource(R.drawable.sunny);
                         break;
+                    case "01n":
+                        mImage.setImageResource(R.drawable.clear);
+                        break;
                     case "02d":
                         mImage.setImageResource(R.drawable.partly_cloudy_day);
+                        break;
+                    case "02n":
+                        mImage.setImageResource(R.drawable.partly_cloudy_night);
                         break;
                     case "03d":
                         mImage.setImageResource(R.drawable.cloudy);
