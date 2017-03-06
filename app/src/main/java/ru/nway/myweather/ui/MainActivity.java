@@ -1,6 +1,5 @@
-package ru.nway.myweather.activities;
+package ru.nway.myweather.ui;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,7 +17,7 @@ import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 import ru.nway.myweather.util.RequestCode;
 
-public class CitiesActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Controller controller;
     private RecyclerView mRecyclerView;

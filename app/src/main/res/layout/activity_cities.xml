@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ru.nway.myweather.activities.CitiesActivity"
+    tools:context="ru.nway.myweather.ui.MainActivity"
     android:id="@+id/cities_layout">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cities_recycler"
-        android:scrollbars="vertical"
+    <fragment class="ru.nway.myweather.ui.RecyclerFragment"
+        android:id="@+id/recyclerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
@@ -20,6 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20px"
+        android:layout_marginRight="20px"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.design.widget.CoordinatorLayout>

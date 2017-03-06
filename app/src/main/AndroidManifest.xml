@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.WeatherActivity"
+            android:name=".ui.WeatherActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activities.CitiesActivity"
+            android:name=".ui.MainActivity"
             android:label="MyWeather"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NewCityActivity"></activity>
+        <activity android:name=".ui.NewCityActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package ru.nway.myweather.activities;
+package ru.nway.myweather.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import ru.nway.myweather.R;
 import ru.nway.myweather.util.RequestCode;
