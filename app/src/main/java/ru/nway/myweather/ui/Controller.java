@@ -15,7 +15,9 @@ import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.model.weather.Main;
 import ru.nway.myweather.servicies.DataService;
+import ru.nway.myweather.util.RequestCode;
 
 /**
  * Created by Klash on 15.02.2017.
@@ -24,14 +26,14 @@ import ru.nway.myweather.servicies.DataService;
 class Controller
 {
 
-    private static RecyclerAdapter adapter;
-
     static ArrayList<String> getRecyclerDataSet()
     {
         return DataService.getCitiesList();
     }
 
-    RecyclerAdapter getRecyclerAdapter(ArrayList<String> dataset)
+    private static RecyclerAdapter adapter;
+
+    static RecyclerAdapter getRecyclerAdapter(ArrayList<String> dataset)
     {
         if (adapter == null) {
             adapter = new RecyclerAdapter(dataset);
@@ -44,35 +46,33 @@ class Controller
     {
         private ArrayList<String> mDataset;
 
-        public static class ViewHolder extends RecyclerView.ViewHolder
+        static class ViewHolder extends RecyclerView.ViewHolder
         {
-            public TextView myTextView;
-            public CardView cardView;
-            private final Context context;
+            TextView myTextView;
+            CardView cardView;
+            Context mContext;
 
             private View.OnClickListener mOnclickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TextView clickedTextView = (TextView)v.findViewById(R.id.item_text);
                     String cityName = clickedTextView.getText().toString();
-
-                    Intent intent = new Intent(context, WeatherActivity.class);
-                    intent.putExtra("cityName", cityName);
-                    context.startActivity(intent);
+                    if (mContext instanceof MainActivity)
+                        ((MainActivity)mContext).fragmentCallback(RequestCode.CALL_WEATHER, cityName);
                 }
             };
 
-            public ViewHolder(View v)
+            ViewHolder(View v)
             {
                 super(v);
                 v.setOnClickListener(mOnclickListener);
                 cardView = (CardView)v.findViewById(R.id.cardViewItem);
                 myTextView = (TextView)v.findViewById(R.id.item_text);
-                context = v.getContext();
+                mContext = App.getContext();
             }
         }
 
-        public RecyclerAdapter(ArrayList<String> dataset)
+        RecyclerAdapter(ArrayList<String> dataset)
         {
             mDataset = dataset;
         }
@@ -96,10 +96,10 @@ class Controller
         public int getItemCount() {
             return mDataset.size();
         }
-        
+
     }
 
-    static ItemTouchHelper.SimpleCallback recyclerItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    private static ItemTouchHelper.SimpleCallback recyclerItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             return false;
@@ -123,7 +123,7 @@ class Controller
         return itemTouchHelper;
     }
 
-    public static void addCity(String cityName)
+    static void addCity(String cityName)
     {
         DataService.saveToFile(cityName);
         adapter.notifyItemInserted(adapter.getItemCount());

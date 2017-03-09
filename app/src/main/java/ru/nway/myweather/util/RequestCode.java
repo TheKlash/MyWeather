@@ -6,7 +6,9 @@ package ru.nway.myweather.util;
 
 public class RequestCode
 {
-    public static final int REQUEST_CODE_WEATHER = 1;
-    public static final int REQUEST_CODE_NEW_CITY = 2;
+    public static final int CALL_WEATHER = 1;
+    public static final int CALL_NEW_CITY = 2;
+    public static final int UPDATE_WEATHER = 3;
+    public static final int CALL_RECYCLER = 4;
 }
 

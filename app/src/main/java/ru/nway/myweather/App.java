@@ -21,21 +21,12 @@ public class App extends Application
         return instance.getApplicationContext();
     }
 
-    private static final String WEATHER_APP_KEY = "573f56d1fe48cd84a3d961d79a6dca99";
-    private static final String TIMEZONE_APP_KEY = "JMTR0MBI76LH";
+    public static final String WEATHER_KEY = "573f56d1fe48cd84a3d961d79a6dca99";
+    public static final String TIMEZONE_KEY = "JMTR0MBI76LH";
 
     @Override
     public void onCreate() {
         instance = this;
         super.onCreate();
-    }
-
-    public static String getWeatherAppKey()
-    {
-        return WEATHER_APP_KEY;
-    }
-    public static String getTimezoneAppKey()
-    {
-        return TIMEZONE_APP_KEY;
     }
 }

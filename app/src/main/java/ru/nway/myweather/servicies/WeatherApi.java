@@ -13,5 +13,5 @@ import ru.nway.myweather.model.weather.MainWeatherData;
 public interface WeatherApi
 {
     @GET("data/2.5/weather")
-    public Call<MainWeatherData> getForecast(@Query("q") String cityName, @Query("appid") String appKey);
+    public Call<MainWeatherData> getCurrentWeather(@Query("q") String cityName, @Query("appid") String appKey);
 }
