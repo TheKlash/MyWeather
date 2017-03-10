@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/cityTextView"
         android:textSize="36sp"
-        android:textAlignment="viewEnd"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/cardview_light_background" />
+        android:textColor="@color/cardview_light_background"
+        android:textAlignment="viewEnd" />
 
     <TextView
         android:text="Time"
@@ -38,11 +38,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/timeTextView"
         android:textSize="30sp"
-        android:textAlignment="viewEnd"
         android:layout_below="@+id/cityTextView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/cardview_light_background" />
+        android:textColor="@color/cardview_light_background"
+        android:textAlignment="viewEnd" />
 
     <ImageView
         android:layout_width="wrap_content"

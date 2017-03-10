@@ -1,54 +1,65 @@
 package ru.nway.myweather.ui;
 
-import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.model.weather.MainWeatherData;
-import ru.nway.myweather.servicies.DataService;
-import ru.nway.myweather.servicies.RetrofitService;
-import ru.nway.myweather.servicies.WeatherApi;
+import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.util.RequestCode;
 
-public class MainActivity extends FragmentActivity implements FragmentCallback {
+public class MainActivity extends FragmentActivity implements FragmentCallback, ConnectionCallback {
 
     private static FragmentManager fragmentManager;
-    private static FragmentTransaction fragmentTransaction;
     private RecyclerFragment mRecyclerFragment;
     private NewCityFragment mNewCityFragment;
     private WeatherFragment mWeatherFragment;
+    private static ConnectionService connectionService;
+    private static ArrayList<String> result;
+    private int counter;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(App.getContext(), "MainActivity рестартанул!", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        result = new ArrayList<>();
         fragmentManager = getSupportFragmentManager();
-        
-        mRecyclerFragment = new RecyclerFragment();
-        mNewCityFragment = new NewCityFragment();
-        mWeatherFragment = new WeatherFragment();
-        
-        fragmentTransaction.add(R.id.container_left, mRecyclerFragment);
-        fragmentTransaction.add(R.id.container_right, mWeatherFragment);
-        fragmentTransaction.commit();
+        connectionService = new ConnectionService();
+
+        mRecyclerFragment = FragmentsHolder.getRecyclerInstance();
+        mNewCityFragment = FragmentsHolder.getNewCityInstance();
+        mWeatherFragment = FragmentsHolder.getWeatherInstance();
+
+        this.setContentView(R.layout.activity_main);
+        if (savedInstanceState == null)
+        {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container_left, mRecyclerFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+
+    }
+
+
+
+
+    @Override
+    public void connectionCallback(ArrayList<String> result) {
+        mWeatherFragment.update(result);
     }
 
     public void fragmentCallback(int requestCode)
@@ -57,13 +68,13 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
         {
             case (RequestCode.CALL_NEW_CITY):
             {
-                fragmentTransaction.replace(R.id.container_left, mNewCityFragment);
+                fragmentManager.beginTransaction().replace(R.id.container_left, mNewCityFragment).addToBackStack("kek").commit();
                 break;
             }
 
             case (RequestCode.CALL_RECYCLER):
             {
-                fragmentTransaction.replace(R.id.container_left, mRecyclerFragment);
+                fragmentManager.beginTransaction().replace(R.id.container_left, mRecyclerFragment).commit();
                 break;
             }
         }
@@ -71,33 +82,36 @@ public class MainActivity extends FragmentActivity implements FragmentCallback {
 
     public void fragmentCallback(int requestCode, String city)
     {
+
+
         switch (requestCode)
         {
             case (RequestCode.CALL_WEATHER):
             {
+                counter++;
                 //MainActivity.callServer(city);
-                WeatherFragment searchWeatherFragment = (WeatherFragment)fragmentManager
+                /*WeatherFragment searchWeatherFragment = (WeatherFragment)fragmentManager
                         .findFragmentById(R.id.container_right); //Проверяем, есть ли на лейауте правый фрагмент
                 if (searchWeatherFragment == null)
                 {
-                    fragmentTransaction.replace(R.id.container_left, mWeatherFragment);
-                }
+                    fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).commit();
+                }*/
+                Toast.makeText(App.getContext(), "Calls counter: " + counter, Toast.LENGTH_SHORT).show();
+                startService(new Intent(this, ConnectionService.class).putExtra("city", city));
+                fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).addToBackStack("heh").commit();
                 break;
             }
             case (RequestCode.UPDATE_WEATHER):
             {
-                //MainActivity.callServer(city);
+                startService(new Intent(this, ConnectionService.class).putExtra("city", city));
+                break;
+            }
+            case (RequestCode.ADD_NEW_CITY):
+            {
+                Controller.addCity(city);
                 break;
             }
         }
 
     }
-
-    private static void callServer(String city)
-    {
-        //TODO
-    }
-
-
-
 }

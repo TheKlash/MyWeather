@@ -1,5 +1,6 @@
 package ru.nway.myweather.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -23,18 +24,16 @@ import ru.nway.myweather.util.RequestCode;
  * Created by Klash on 15.02.2017.
  */
 
-class Controller
-{
+public class Controller {
 
-    static ArrayList<String> getRecyclerDataSet()
-    {
+    private static Activity mActivity;
+    private static RecyclerAdapter adapter;
+
+    static ArrayList<String> getRecyclerDataSet() {
         return DataService.getCitiesList();
     }
 
-    private static RecyclerAdapter adapter;
-
-    static RecyclerAdapter getRecyclerAdapter(ArrayList<String> dataset)
-    {
+    static RecyclerAdapter getRecyclerAdapter(ArrayList<String> dataset) {
         if (adapter == null) {
             adapter = new RecyclerAdapter(dataset);
         }
@@ -42,38 +41,35 @@ class Controller
         return adapter;
     }
 
-    private static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
-    {
+    static void setActivity(Activity activity) {
+        mActivity = activity;
+    }
+
+    private static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
         private ArrayList<String> mDataset;
 
-        static class ViewHolder extends RecyclerView.ViewHolder
-        {
+        static class ViewHolder extends RecyclerView.ViewHolder {
             TextView myTextView;
             CardView cardView;
-            Context mContext;
 
             private View.OnClickListener mOnclickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TextView clickedTextView = (TextView)v.findViewById(R.id.item_text);
+                    TextView clickedTextView = (TextView) v.findViewById(R.id.item_text);
                     String cityName = clickedTextView.getText().toString();
-                    if (mContext instanceof MainActivity)
-                        ((MainActivity)mContext).fragmentCallback(RequestCode.CALL_WEATHER, cityName);
+                    ((MainActivity) mActivity).fragmentCallback(RequestCode.CALL_WEATHER, cityName);
                 }
             };
 
-            ViewHolder(View v)
-            {
+            ViewHolder(View v) {
                 super(v);
                 v.setOnClickListener(mOnclickListener);
-                cardView = (CardView)v.findViewById(R.id.cardViewItem);
-                myTextView = (TextView)v.findViewById(R.id.item_text);
-                mContext = App.getContext();
+                cardView = (CardView) v.findViewById(R.id.cardViewItem);
+                myTextView = (TextView) v.findViewById(R.id.item_text);
             }
         }
 
-        RecyclerAdapter(ArrayList<String> dataset)
-        {
+        RecyclerAdapter(ArrayList<String> dataset) {
             mDataset = dataset;
         }
 
@@ -107,7 +103,7 @@ class Controller
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            TextView textView = (TextView)viewHolder.itemView.findViewById(R.id.item_text);
+            TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.item_text);
             String cityName = textView.getText().toString();
 
             DataService.removeCity(cityName);
@@ -117,16 +113,19 @@ class Controller
         }
     };
 
-    static ItemTouchHelper getItemTouchHelper()
-    {
+    static ItemTouchHelper getItemTouchHelper() {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerItemTouchCallback);
         return itemTouchHelper;
     }
 
-    static void addCity(String cityName)
-    {
+    static void addCity(String cityName) {
         DataService.saveToFile(cityName);
         adapter.notifyItemInserted(adapter.getItemCount());
         adapter.notifyDataSetChanged();
+    }
+
+    public static void callUpdateWeather(ArrayList<String> list)
+    {
+        ((ConnectionCallback)mActivity).connectionCallback(list);
     }
 }

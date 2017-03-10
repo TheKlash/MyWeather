@@ -22,10 +22,18 @@ public class NewCityFragment extends Fragment {
     private EditText mCityNameEditText;
     private Activity mActivity;
 
+    public static NewCityFragment newInstance(int index) {
+        NewCityFragment fragment = new NewCityFragment();
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity mActivity = (MainActivity)context;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        mActivity = getActivity();
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Nullable
@@ -34,15 +42,28 @@ public class NewCityFragment extends Fragment {
     {
         View view = inflater.inflate(R.layout.fragment_new_city, container, false);
 
-        mOkButton = (Button)getView().findViewById(R.id.okButton);
+        mOkButton = (Button)view.findViewById(R.id.okButton);
         mOkButton.setOnClickListener(okListener);
 
-        mCancelButton = (Button)getView().findViewById(R.id.cancelButton);
+        mCancelButton = (Button)view.findViewById(R.id.cancelButton);
         mCancelButton.setOnClickListener(cancelListener);
 
-        mCityNameEditText = (EditText)getView().findViewById(R.id.cityNameEditText);
+        mCityNameEditText = (EditText)view.findViewById(R.id.cityNameEditText);
 
         return view;
+    }
+
+    @Override
+    public void onPause()
+    {
+        mCityNameEditText.setText("");
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 
     View.OnClickListener okListener = new View.OnClickListener() {

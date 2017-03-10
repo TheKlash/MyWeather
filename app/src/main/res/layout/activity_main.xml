@@ -6,7 +6,7 @@
     tools:context="ru.nway.myweather.ui.MainActivity"
     android:id="@+id/main_layout">
 
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"

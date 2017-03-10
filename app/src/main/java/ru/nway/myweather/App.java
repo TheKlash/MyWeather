@@ -23,6 +23,7 @@ public class App extends Application
 
     public static final String WEATHER_KEY = "573f56d1fe48cd84a3d961d79a6dca99";
     public static final String TIMEZONE_KEY = "JMTR0MBI76LH";
+    public static final String TIMEZONE_URL = "http://api.timezonedb.com/v2/get-time-zone";
 
     @Override
     public void onCreate() {

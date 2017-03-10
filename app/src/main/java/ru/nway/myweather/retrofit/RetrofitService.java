@@ -1,4 +1,4 @@
-package ru.nway.myweather.servicies;
+package ru.nway.myweather.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

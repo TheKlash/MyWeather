@@ -25,12 +25,21 @@ public class RecyclerFragment extends Fragment
     private RecyclerView mCitiesRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton mFab;
-    private Activity mActivity;
+    private static Activity mActivity;
+
+    public static RecyclerFragment newInstance(int index) {
+        RecyclerFragment fragment = new RecyclerFragment();
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
+        mActivity = getActivity();
+        Controller.setActivity(mActivity);
         super.onAttach(context);
-        Activity mActivity = (MainActivity)context;
     }
 
     @Nullable
@@ -39,8 +48,8 @@ public class RecyclerFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_recycler, container, false);
 
-        mCitiesRecycler = (RecyclerView)getView().findViewById(R.id.cities_recycler);
-        mFab = (FloatingActionButton)getView().findViewById(R.id.fab);
+        mCitiesRecycler = (RecyclerView)view.findViewById(R.id.cities_recycler);
+        mFab = (FloatingActionButton)view.findViewById(R.id.fab);
         mFab.setOnClickListener(fabOnClickListener);
 
         return view;
@@ -52,11 +61,13 @@ public class RecyclerFragment extends Fragment
         setRecycler();
     }
 
+
+
     private void setRecycler()
     {
         ArrayList<String> mDataset = Controller.getRecyclerDataSet();
-        if (mDataset.size() > 0)
-            ((FragmentCallback)mActivity).fragmentCallback(RequestCode.UPDATE_WEATHER, mDataset.get(0));
+        /*if (mDataset.size() > 0)
+            ((FragmentCallback)mActivity).fragmentCallback(RequestCode.UPDATE_WEATHER, mDataset.get(0));*/
         mCitiesRecycler.setAdapter(Controller.getRecyclerAdapter(mDataset));
 
         ItemTouchHelper itemTouchHelper = Controller.getItemTouchHelper();
