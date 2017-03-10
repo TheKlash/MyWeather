@@ -1,4 +1,4 @@
-package ru.nway.myweather.retrofit;
+package ru.nway.myweather.servicies;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +14,7 @@ import ru.nway.myweather.model.weather.MainWeatherData;
  * Created by Klash on 15.02.2017.
  */
 
-public class RetrofitService
+class RetrofitService
 {
     private static final String BASE_URL = "http://api.openweathermap.org/";
 
@@ -25,16 +25,13 @@ public class RetrofitService
             new HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY);
 
-    private static Retrofit retrofit = builder.build();
-
     private static OkHttpClient.Builder httpClient =
-            new OkHttpClient.Builder();
+            new OkHttpClient.Builder().addInterceptor(logging);
+
+    private static Retrofit retrofit = builder.client(httpClient.build()).build();
 
     public static <S> S createService(Class<S> serviceClass)
     {
-        httpClient.addInterceptor(logging);
-        builder.client(httpClient.build());
-        retrofit = builder.build();
         return retrofit.create(serviceClass);
     }
 

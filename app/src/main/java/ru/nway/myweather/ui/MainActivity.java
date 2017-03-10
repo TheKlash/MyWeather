@@ -13,7 +13,7 @@ import ru.nway.myweather.R;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.util.RequestCode;
 
-public class MainActivity extends FragmentActivity implements FragmentCallback, ConnectionCallback {
+public class MainActivity extends FragmentActivity implements FragmentCallback, ControllerCallback {
 
     private static FragmentManager fragmentManager;
     private RecyclerFragment mRecyclerFragment;

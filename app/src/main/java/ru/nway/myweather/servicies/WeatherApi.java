@@ -10,7 +10,7 @@ import ru.nway.myweather.model.weather.MainWeatherData;
  * Created by Klash on 14.02.2017.
  */
 
-public interface WeatherApi
+interface WeatherApi
 {
     @GET("data/2.5/weather")
     public Call<MainWeatherData> getCurrentWeather(@Query("q") String cityName, @Query("appid") String appKey);

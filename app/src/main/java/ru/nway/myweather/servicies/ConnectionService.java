@@ -17,12 +17,7 @@ import retrofit2.Response;
 import ru.nway.myweather.App;
 import ru.nway.myweather.model.timezone.TimezoneData;
 import ru.nway.myweather.model.weather.MainWeatherData;
-import ru.nway.myweather.retrofit.RetrofitService;
 import ru.nway.myweather.ui.Controller;
-
-/**
- * Created by Klash on 10.03.2017.
- */
 
 public class ConnectionService extends Service
 {

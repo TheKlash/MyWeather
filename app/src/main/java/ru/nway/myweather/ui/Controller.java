@@ -1,8 +1,6 @@
 package ru.nway.myweather.ui;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -16,8 +14,9 @@ import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.model.weather.Main;
 import ru.nway.myweather.servicies.DataService;
+import ru.nway.myweather.ui.ControllerCallback;
+import ru.nway.myweather.ui.MainActivity;
 import ru.nway.myweather.util.RequestCode;
 
 /**
@@ -126,6 +125,6 @@ public class Controller {
 
     public static void callUpdateWeather(ArrayList<String> list)
     {
-        ((ConnectionCallback)mActivity).connectionCallback(list);
+        ((ControllerCallback)mActivity).connectionCallback(list);
     }
 }
