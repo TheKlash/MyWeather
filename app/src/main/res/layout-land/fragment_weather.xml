@@ -9,18 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBgWeatherActivityDay">
 
-    <TextView
-        android:text="Temperature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/temperatureTextView"
-        android:textSize="36sp"
-        android:textAlignment="viewStart"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/cardview_light_background" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,11 +57,27 @@
         android:layout_height="wrap_content"
         android:id="@+id/weatherTextView"
         android:textSize="30sp"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textColor="@color/cardview_light_background"
         android:layout_below="@+id/temperatureTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/temperatureTextView"
+        android:layout_alignEnd="@+id/temperatureTextView" />
+
+    <TextView
+        android:text="Temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temperatureTextView"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:textColor="@color/cardview_light_background"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 
 
 </RelativeLayout>

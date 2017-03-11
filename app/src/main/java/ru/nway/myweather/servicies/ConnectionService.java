@@ -21,13 +21,9 @@ import ru.nway.myweather.ui.Controller;
 
 public class ConnectionService extends Service
 {
-    private static String time = "unable to get time";
     private Looper looper;
     private ServiceHandler mServiceHandler;
     private String city;
-    private static String STATUS;
-    private static int serviceCounter;
-    private static int callCounter;
 
     private final class ServiceHandler extends Handler
     {
@@ -38,11 +34,8 @@ public class ConnectionService extends Service
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (STATUS.equals("READY"))
-            {
-                STATUS = "CALLING";
-                callWeatherServer(city);
-            }
+            callWeatherServer(city);
+
             stopSelf(msg.arg1);
         }
 
@@ -53,11 +46,6 @@ public class ConnectionService extends Service
             {
                 @Override
                 public void onResponse(Call<MainWeatherData> call, Response<MainWeatherData> response) {
-                    if (STATUS.equals("CALLING"))
-                        call.cancel();
-
-                    callCounter++;
-                    Toast.makeText(App.getContext(), "Calling. Response counter: " + callCounter, Toast.LENGTH_LONG).show();
 
                     MainWeatherData weatherData = response.body();
                     String icon = weatherData.getWeather().get(0).getIcon();
@@ -82,7 +70,6 @@ public class ConnectionService extends Service
                     callResults.add(tempString);
                     callResults.add(weather);
                     callResults.add(icon);
-                    callResults.add(time);
                     Controller.callUpdateWeather(callResults);
                 }
 
@@ -100,7 +87,8 @@ public class ConnectionService extends Service
                     "position", lat, lon).enqueue(new retrofit2.Callback<TimezoneData>() {
                 @Override
                 public void onResponse(Call<TimezoneData> call, Response<TimezoneData> response) {
-                    time = response.body().getFormatted();
+                    String time = response.body().getFormatted();
+                    Controller.callTimeUpdate(time);
                 }
 
                 @Override
@@ -126,19 +114,12 @@ public class ConnectionService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
-        STATUS = "READY";
         HandlerThread thread = new HandlerThread("ServiceStartArguments");
         thread.start();
-        serviceCounter++;
 
         looper = thread.getLooper();
         mServiceHandler = new ServiceHandler(looper);
 
-    }
-
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, "service done, service counter: " + serviceCounter, Toast.LENGTH_SHORT).show();
     }
 
     @Override

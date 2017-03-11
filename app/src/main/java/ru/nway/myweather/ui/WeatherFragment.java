@@ -27,7 +27,6 @@ public class WeatherFragment extends Fragment
     private Button mBackButton;
     private Activity mActivity;
     private static String cityName;
-    private static int fragmentsCounter;
 
     public static WeatherFragment newInstance(int index) {
         WeatherFragment fragment = new WeatherFragment();
@@ -37,9 +36,8 @@ public class WeatherFragment extends Fragment
         return fragment;
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
@@ -53,16 +51,12 @@ public class WeatherFragment extends Fragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentsCounter--;
-        Toast.makeText(App.getContext(),"WeatherFragmnet counter: " + fragmentsCounter, Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        fragmentsCounter++;
-        Toast.makeText(App.getContext(),"WeatherFragmnet counter: " + fragmentsCounter, Toast.LENGTH_SHORT).show();
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         try
@@ -88,7 +82,12 @@ public class WeatherFragment extends Fragment
         return view;
     }
 
-    void update(ArrayList<String> data)
+    void updateTime(String time)
+    {
+        mTimeTextView.setText(time);
+    }
+
+    void updateWeather(ArrayList<String> data)
     {
         cityName = data.get(0);
         mCityTextView.setText(cityName);
@@ -97,8 +96,6 @@ public class WeatherFragment extends Fragment
         String weather = data.get(2);
         mWeatherTextView.setText(weather);
         String icon = data.get(3);
-        String time = data.get(4);
-        mTimeTextView.setText(time);
 
         switch (icon)
         {

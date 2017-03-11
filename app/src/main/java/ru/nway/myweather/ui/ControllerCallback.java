@@ -8,5 +8,6 @@ import java.util.ArrayList;
 
 public interface ControllerCallback
 {
-    void connectionCallback(ArrayList<String> result);
+    void updateWeather(ArrayList<String> result);
+    void updateTime(String time);
 }
