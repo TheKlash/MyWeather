@@ -30,8 +30,8 @@ public class Controller {
         return DataService.getCitiesList();
     }
 
-    static void addCity(String city) {
-        DataService.saveToFile(city);
+    static void addCity(String city, double lat, double lon) {
+        DataService.saveToFile(city, lat, lon);
     }
 
     public static void callUpdateWeather(ArrayList<String> result)

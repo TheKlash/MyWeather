@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import ru.nway.myweather.App;
+import ru.nway.myweather.util.CityHashHolder;
 
 /**
  * Created by Klash on 17.02.2017.
@@ -46,7 +47,13 @@ public class DataService
             {
                 if (s.hasNext())
                 {
-                    citiesList.add(s.next());
+                    String[] cityData = s.next().split("&&");
+                    CityHashHolder.addCity(
+                            cityData[0],
+                            Double.parseDouble(cityData[1]),
+                            Double.parseDouble(cityData[2])
+                    );
+                    citiesList.add(cityData[0]);
                 }
                 else
                 {
@@ -64,9 +71,9 @@ public class DataService
                 File file = new File(CONTEXT.getFilesDir(), FILENAME);
                 PrintWriter writer = new PrintWriter(new FileOutputStream(file));
 
-                writer.write("Moscow\n");
-                writer.write("St. Petersbourgh\n");
-                writer.write("Tokyo\n");
+                writer.write("Moscow&&0.0&&0.0\n");
+                writer.write("St. Petersbourgh&&0.0&&0.0\n");
+                writer.write("Tokyo&&0.0&&0.0\n");
 
                 writer.close();
                 file.createNewFile();
@@ -84,16 +91,18 @@ public class DataService
         }
     }
 
-    public static void saveToFile(String city)
+    public static void saveToFile(String city, double lat, double lon)
     {
         Context CONTEXT = App.getContext();
         citiesList.add(city);
-        String write = city + "\n";
+        String write = city + "&&" + lat + "&&" + lon + "\n";
         try
         {
             FileOutputStream os = CONTEXT.openFileOutput(FILENAME, Context.MODE_APPEND);
             os.write(write.getBytes());
             os.close();
+
+            CityHashHolder.addCity(city, lat, lon);
         }
 
         catch (IOException e)
@@ -116,6 +125,8 @@ public class DataService
             }
 
             os.close();
+
+            CityHashHolder.removeCity(city);
         }
 
         catch (IOException e)

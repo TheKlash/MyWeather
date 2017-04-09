@@ -42,7 +42,6 @@ public class NewCityFragment extends Fragment {
         mOkButton = (Button)view.findViewById(R.id.okButton);
         mOkButton.setOnClickListener(okListener);
 
-        mCancelButton = (Button)view.findViewById(R.id.cancelButton);
         mCancelButton.setOnClickListener(cancelListener);
 
         mCityNameEditText = (EditText)view.findViewById(R.id.cityNameEditText);
@@ -67,7 +66,8 @@ public class NewCityFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String city = mCityNameEditText.getText().toString();
-            Controller.addCity(city);
+            Controller.addCity(city, 0.0, 0.0);//Временно
+            //TODO: после подключения API сделать так, чтобы передавались настоящие координаты
             ((FragmentCallback)mActivity).fragmentCallback(RequestCode.CALL_RECYCLER);
         }
     };

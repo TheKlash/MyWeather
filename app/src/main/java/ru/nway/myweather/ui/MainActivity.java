@@ -100,7 +100,8 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             }
             case (RequestCode.ADD_NEW_CITY):
             {
-                Controller.addCity(city);
+                Controller.addCity(city, 0.0, 0.0); //Дичайший костыль
+                //TODO: Сжечь нахуй после перехода на новый API
                 mRecyclerFragment.notifyAdded(city);
                 break;
             }

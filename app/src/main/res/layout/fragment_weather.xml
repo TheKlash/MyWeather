@@ -52,14 +52,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherTextView"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/backButton" />
-
     <TextView
         android:text="Temperature"
         android:layout_width="match_parent"
