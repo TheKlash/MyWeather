@@ -34,6 +34,11 @@ public class Controller {
         DataService.saveToFile(city, lat, lon);
     }
 
+    public static void callUpdateCity(String city)
+    {
+        ((ControllerCallback)mActivity).udpateCity(city);
+    }
+
     public static void callUpdateWeather(ArrayList<String> result)
     {
         ((ControllerCallback)mActivity).updateWeather(result);

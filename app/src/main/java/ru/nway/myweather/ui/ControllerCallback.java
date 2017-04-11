@@ -10,4 +10,5 @@ public interface ControllerCallback
 {
     void updateWeather(ArrayList<String> result);
     void updateTime(String time);
+    void udpateCity(String name);
 }

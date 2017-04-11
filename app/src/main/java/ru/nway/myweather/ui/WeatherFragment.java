@@ -24,17 +24,8 @@ public class WeatherFragment extends Fragment
     private ImageView mImageView;
     private TextView mTemperatureTextView;
     private TextView mWeatherTextView;
-    private Button mBackButton;
     private Activity mActivity;
     private static String cityName;
-
-    public static WeatherFragment newInstance(int index) {
-        WeatherFragment fragment = new WeatherFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,9 +61,6 @@ public class WeatherFragment extends Fragment
             mTemperatureTextView = (TextView)view.findViewById(R.id.temperatureTextView);
             mWeatherTextView = (TextView)view.findViewById(R.id.weatherTextView);
 
-            mBackButton = (Button) view.findViewById(R.id.backButton);
-            mBackButton.setOnClickListener(backOnClickListener);
-
         }
         catch (NullPointerException e)
         {
@@ -82,6 +70,11 @@ public class WeatherFragment extends Fragment
         return view;
     }
 
+    void updateCity(String city)
+    {
+        mCityTextView.setText(city);
+    }
+
     void updateTime(String time)
     {
         mTimeTextView.setText(time);
@@ -89,69 +82,46 @@ public class WeatherFragment extends Fragment
 
     void updateWeather(ArrayList<String> data)
     {
-        cityName = data.get(0);
-        mCityTextView.setText(cityName);
-        String temp = data.get(1);
+        String temp = data.get(0);
         mTemperatureTextView.setText(temp);
-        String weather = data.get(2);
+        String weather = data.get(1);
         mWeatherTextView.setText(weather);
-        String icon = data.get(3);
+        String icon = data.get(2);
 
         switch (icon)
         {
-            case "01d":
+            case "clear-day":
                 mImageView.setImageResource(R.drawable.sunny);
                 break;
-            case "01n":
+            case "clear-night":
                 mImageView.setImageResource(R.drawable.clear);
                 break;
-            case "02d":
+            case "partly-cloudy-day":
                 mImageView.setImageResource(R.drawable.partly_cloudy_day);
                 break;
-            case "02n":
+            case "partly-cloudy-night":
                 mImageView.setImageResource(R.drawable.partly_cloudy_night);
                 break;
-            case "03d":
+            case "cloudy":
                 mImageView.setImageResource(R.drawable.cloudy);
                 break;
-            case "03n":
-                mImageView.setImageResource(R.drawable.cloudy);
+            case "sleet":
+                mImageView.setImageResource(R.drawable.mod_sleet);
                 break;
-            case "04d":
-                mImageView.setImageResource(R.drawable.overcast);
+            case "wind":
+                mImageView.setImageResource(R.drawable.wind);
                 break;
-            case "04n":
-                mImageView.setImageResource(R.drawable.overcast);
+            case "snow":
+                mImageView.setImageResource(R.drawable.mod_snow);
                 break;
-            case "09d":
-                mImageView.setImageResource(R.drawable.heavy_rain);
-                break;
-            case "09n":
-                mImageView.setImageResource(R.drawable.heavy_rain);
-                break;
-            case "10d":
-                mImageView.setImageResource(R.drawable.heavy_rain_swrs_day);
-                break;
-            case "10n":
-                mImageView.setImageResource(R.drawable.heavy_rain_rwrs_night);
-                break;
-            case "11d":
-                mImageView.setImageResource(R.drawable.cloud_rain_thunder);
-                break;
-            case "11n":
-                mImageView.setImageResource(R.drawable.cloud_rain_thunder);
-                break;
-            case "13d":
-                mImageView.setImageResource(R.drawable.heavy_snow_swrs_day);
-                break;
-            case "13n":
-                mImageView.setImageResource(R.drawable.heavy_snow_swr_night);
-                break;
-            case "50d":
+            case "fog":
                 mImageView.setImageResource(R.drawable.fog);
                 break;
-            case "50n":
-                mImageView.setImageResource(R.drawable.fog);
+            case "rain":
+                mImageView.setImageResource(R.drawable.mod_rain);
+                break;
+            default:
+                mImageView.setImageResource(R.drawable.overcast);
                 break;
         }
     }

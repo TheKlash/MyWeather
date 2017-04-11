@@ -7,37 +7,53 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ru.nway.myweather.ui.NewCityActivity">
-
-    <TextView
-        android:text="Input city name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="24sp"
-        android:textAlignment="center" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/cityNameEditText"
-        android:textSize="24sp" />
+>
 
     <Button
         android:text="OK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cityNameEditText"
+        android:id="@+id/okButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/okButton" />
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchCityButton"
+        android:layout_below="@+id/searchCityTextName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Search city by name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchCityTextName"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="or find location by GPS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchCityButton"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/GPSTextView"
+        android:textSize="24sp"
+        android:textAlignment="center" />
+
+    <Button
+        android:text="Find"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/GPSButton"
+        android:layout_below="@+id/GPSTextView"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

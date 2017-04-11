@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,15 +30,6 @@ public class RecyclerFragment extends Fragment
     private FloatingActionButton mFab;
     private static Activity mActivity;
     private static RecyclerAdapter adapter;
-
-
-    public static RecyclerFragment newInstance(int index) {
-        RecyclerFragment fragment = new RecyclerFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -67,6 +59,8 @@ public class RecyclerFragment extends Fragment
     private void setRecycler()
     {
         ArrayList<String> mDataset = Controller.getRecyclerDataSet();
+        if (mDataset.isEmpty())
+            Toast.makeText(mActivity, "Press button in the right-bottom to add cities", Toast.LENGTH_LONG).show();
         adapter = new RecyclerAdapter(mDataset);
         /*if (mDataset.size() > 0)
             ((FragmentCallback)mActivity).fragmentCallback(RequestCode.UPDATE_WEATHER, mDataset.get(0));*/

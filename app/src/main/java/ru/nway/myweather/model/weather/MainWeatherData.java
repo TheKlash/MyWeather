@@ -9,43 +9,34 @@ import com.google.gson.annotations.SerializedName;
 public class MainWeatherData implements Serializable
 {
 
-    @SerializedName("coord")
+    @SerializedName("latitude")
     @Expose
-    private Coord coord;
-    @SerializedName("weather")
+    private double latitude;
+    @SerializedName("longitude")
     @Expose
-    private List<Weather> weather = null;
-    @SerializedName("base")
+    private double longitude;
+    @SerializedName("timezone")
     @Expose
-    private String base;
-    @SerializedName("main")
+    private String timezone;
+    @SerializedName("currently")
     @Expose
-    private Main main;
-    @SerializedName("visibility")
+    private Currently currently;
+    @SerializedName("minutely")
     @Expose
-    private int visibility;
-    @SerializedName("wind")
+    private Minutely minutely;
+    @SerializedName("hourly")
     @Expose
-    private Wind wind;
-    @SerializedName("clouds")
+    private Hourly hourly;
+    @SerializedName("daily")
     @Expose
-    private Clouds clouds;
-    @SerializedName("dt")
+    private Daily daily;
+    @SerializedName("alerts")
     @Expose
-    private int dt;
-    @SerializedName("sys")
+    private List<Alert> alerts = null;
+    @SerializedName("flags")
     @Expose
-    private Sys sys;
-    @SerializedName("id")
-    @Expose
-    private int id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("cod")
-    @Expose
-    private int cod;
-    private final static long serialVersionUID = -540879373454210596L;
+    private Flags flags;
+    private final static long serialVersionUID = 7748859197985534017L;
 
     /**
      * No args constructor for use in serialization
@@ -56,189 +47,99 @@ public class MainWeatherData implements Serializable
 
     /**
      * 
-     * @param id
-     * @param dt
-     * @param clouds
-     * @param coord
-     * @param wind
-     * @param cod
-     * @param visibility
-     * @param sys
-     * @param name
-     * @param base
-     * @param weather
-     * @param main
+     * @param timezone
+     * @param flags
+     * @param alerts
+     * @param currently
+     * @param longitude
+     * @param latitude
+     * @param hourly
+     * @param daily
+     * @param minutely
      */
-    public MainWeatherData(Coord coord, List<Weather> weather, String base, Main main, int visibility, Wind wind, Clouds clouds, int dt, Sys sys, int id, String name, int cod) {
+    public MainWeatherData(double latitude, double longitude, String timezone, Currently currently, Minutely minutely, Hourly hourly, Daily daily, List<Alert> alerts, Flags flags) {
         super();
-        this.coord = coord;
-        this.weather = weather;
-        this.base = base;
-        this.main = main;
-        this.visibility = visibility;
-        this.wind = wind;
-        this.clouds = clouds;
-        this.dt = dt;
-        this.sys = sys;
-        this.id = id;
-        this.name = name;
-        this.cod = cod;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timezone = timezone;
+        this.currently = currently;
+        this.minutely = minutely;
+        this.hourly = hourly;
+        this.daily = daily;
+        this.alerts = alerts;
+        this.flags = flags;
     }
 
-    public Coord getCoord() {
-        return coord;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCoord(Coord coord) {
-        this.coord = coord;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public MainWeatherData withCoord(Coord coord) {
-        this.coord = coord;
-        return this;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public List<Weather> getWeather() {
-        return weather;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public void setWeather(List<Weather> weather) {
-        this.weather = weather;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public MainWeatherData withWeather(List<Weather> weather) {
-        this.weather = weather;
-        return this;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
-    public String getBase() {
-        return base;
+    public Currently getCurrently() {
+        return currently;
     }
 
-    public void setBase(String base) {
-        this.base = base;
+    public void setCurrently(Currently currently) {
+        this.currently = currently;
     }
 
-    public MainWeatherData withBase(String base) {
-        this.base = base;
-        return this;
+    public Minutely getMinutely() {
+        return minutely;
     }
 
-    public Main getMain() {
-        return main;
+    public void setMinutely(Minutely minutely) {
+        this.minutely = minutely;
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public Hourly getHourly() {
+        return hourly;
     }
 
-    public MainWeatherData withMain(Main main) {
-        this.main = main;
-        return this;
+    public void setHourly(Hourly hourly) {
+        this.hourly = hourly;
     }
 
-    public int getVisibility() {
-        return visibility;
+    public Daily getDaily() {
+        return daily;
     }
 
-    public void setVisibility(int visibility) {
-        this.visibility = visibility;
+    public void setDaily(Daily daily) {
+        this.daily = daily;
     }
 
-    public MainWeatherData withVisibility(int visibility) {
-        this.visibility = visibility;
-        return this;
+    public List<Alert> getAlerts() {
+        return alerts;
     }
 
-    public Wind getWind() {
-        return wind;
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
     }
 
-    public void setWind(Wind wind) {
-        this.wind = wind;
+    public Flags getFlags() {
+        return flags;
     }
 
-    public MainWeatherData withWind(Wind wind) {
-        this.wind = wind;
-        return this;
-    }
-
-    public Clouds getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
-    }
-
-    public MainWeatherData withClouds(Clouds clouds) {
-        this.clouds = clouds;
-        return this;
-    }
-
-    public int getDt() {
-        return dt;
-    }
-
-    public void setDt(int dt) {
-        this.dt = dt;
-    }
-
-    public MainWeatherData withDt(int dt) {
-        this.dt = dt;
-        return this;
-    }
-
-    public Sys getSys() {
-        return sys;
-    }
-
-    public void setSys(Sys sys) {
-        this.sys = sys;
-    }
-
-    public MainWeatherData withSys(Sys sys) {
-        this.sys = sys;
-        return this;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public MainWeatherData withId(int id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public MainWeatherData withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public int getCod() {
-        return cod;
-    }
-
-    public void setCod(int cod) {
-        this.cod = cod;
-    }
-
-    public MainWeatherData withCod(int cod) {
-        this.cod = cod;
-        return this;
+    public void setFlags(Flags flags) {
+        this.flags = flags;
     }
 
 }

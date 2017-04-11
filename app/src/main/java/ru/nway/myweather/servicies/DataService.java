@@ -1,6 +1,8 @@
 package ru.nway.myweather.servicies;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.Scanner;
 
 import ru.nway.myweather.App;
@@ -47,11 +50,25 @@ public class DataService
             {
                 if (s.hasNext())
                 {
-                    String[] cityData = s.next().split("&&");
+                    String curString = s.next();
+                    Log.i("READING STRING", curString);
+                    String[] cityData = curString.split("&&");
+
+                    double lat = 0.0;
+                    double lon = 0.0;
+                    try
+                    {
+                        lat = Double.parseDouble(cityData[1]);
+                        lon = Double.parseDouble(cityData[2]);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                     CityHashHolder.addCity(
                             cityData[0],
-                            Double.parseDouble(cityData[1]),
-                            Double.parseDouble(cityData[2])
+                            lat,
+                            lon
                     );
                     citiesList.add(cityData[0]);
                 }
@@ -69,13 +86,6 @@ public class DataService
             try
             {
                 File file = new File(CONTEXT.getFilesDir(), FILENAME);
-                PrintWriter writer = new PrintWriter(new FileOutputStream(file));
-
-                writer.write("Moscow&&0.0&&0.0\n");
-                writer.write("St. Petersbourgh&&0.0&&0.0\n");
-                writer.write("Tokyo&&0.0&&0.0\n");
-
-                writer.close();
                 file.createNewFile();
             }
             catch (IOException e1)
@@ -111,22 +121,22 @@ public class DataService
         }
     }
 
-    public static void removeCity(String city)
+    public static void removeCity(String cityName)
     {
         Context CONTEXT = App.getContext();
-        citiesList.remove(city);
+        CityHashHolder.removeCity(cityName);
+        ArrayList<String> recordsList = CityHashHolder.getStrings();
+        citiesList.remove(cityName);
         try
         {
             FileOutputStream os = CONTEXT.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            for (String cityName: citiesList)
+            for (String record: recordsList)
             {
-                String write = cityName + "\n";
+                String write = record + "\n";
                 os.write(write.getBytes());
             }
 
             os.close();
-
-            CityHashHolder.removeCity(city);
         }
 
         catch (IOException e)
