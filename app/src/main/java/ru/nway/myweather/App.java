@@ -24,7 +24,8 @@ public class App extends Application
     public static final String TIMEZONE_KEY = "JMTR0MBI76LH";
     public static final String TIMEZONE_URL = "http://api.timezonedb.com/v2/get-time-zone";
     public static final String LANG = "en";
-    public static final String UNITS = "SI";
+    public static final String UNITS = "si";
+    public static final String TAG = "ЕБУЧИЙ БАГ";
 
     @Override
     public void onCreate() {

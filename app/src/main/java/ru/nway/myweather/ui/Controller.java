@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
+
+import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 import ru.nway.myweather.servicies.DataService;
 import ru.nway.myweather.util.RequestCode;
@@ -44,8 +47,19 @@ public class Controller {
         ((ControllerCallback)mActivity).updateWeather(result);
     }
 
-    public static void callTimeUpdate(String time)
+    public static void callUpdateCurrently(ArrayList<Double> currently)
     {
-        ((ControllerCallback)mActivity).updateTime(time);
+        ((ControllerCallback)mActivity).updateCurrently(currently);
     }
+
+    public static void callUpdateHourly(ArrayList<String> hourly)
+    {
+
+    }
+
+    public static void callUpdateDaily(ArrayList<String> daily)
+    {
+
+    }
+
 }

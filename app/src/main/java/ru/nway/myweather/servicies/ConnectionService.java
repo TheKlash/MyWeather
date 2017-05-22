@@ -8,11 +8,11 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import retrofit2.Call;
-import retrofit2.Response;
 import ru.nway.myweather.App;
-import ru.nway.myweather.model.timezone.TimezoneData;
+import ru.nway.myweather.model.weather.Currently;
 import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.ui.Controller;
 import ru.nway.myweather.util.CityHashHolder;
@@ -30,80 +30,77 @@ public class ConnectionService extends Service
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            callWeatherServer(city);
+
+            try
+            {
+                callWeatherServer(city);
+                Controller.callUpdateCity(city);
+                Controller.callUpdateWeather(CityHashHolder.getStats(city));
+
+            }
+            catch (InterruptedException e)
+            {
+               e.printStackTrace();
+            }
 
             stopSelf(msg.arg1);
         }
 
-        private void callWeatherServer(final String cityName)
-        {
-            WeatherApi weatherApi = RetrofitService.createService(WeatherApi.class);
-            double[] coord = CityHashHolder.getCoords(city);
-            weatherApi.getCurrentWeather(
-                    App.WEATHER_KEY,
-                    coord[0],
-                    coord[1]).enqueue(new retrofit2.Callback<MainWeatherData>()
+        private void callWeatherServer(final String cityName) throws InterruptedException {
+
+            Log.i(App.TAG, "Вызов callWeatherServer, cityName = " + cityName);
+            Thread t1 = new Thread(new Runnable()
             {
                 @Override
-                public void onResponse(Call<MainWeatherData> call, Response<MainWeatherData> response) {
+                public void run()
+                {
+                    double[] coord = CityHashHolder.getCoords(city);
                     try {
-                        Thread.sleep(1300);
+                        WeatherApi weatherApi = RetrofitService.createService(WeatherApi.class);
+                        final MainWeatherData weatherData = weatherApi.getCurrentWeather(
+                                App.WEATHER_KEY,
+                                coord[0],
+                                coord[1],
+                                App.LANG,
+                                App.UNITS
+                        ).execute().body();
+
+                        Log.i(App.TAG, "Идем дальше");
+
+                        String icon = weatherData.getCurrently().getIcon();
+                        System.out.print(icon);
+                        Double celsiumTemp = weatherData.getCurrently().getTemperature();
+                        String tempString;
+                        if (celsiumTemp > 0.0)
+                            tempString = String.format("+" + "%.1f" + " C", celsiumTemp);
+                        else
+                            tempString = String.format("%.1f" + " C", celsiumTemp);
+
+                        String weather = weatherData.getCurrently().getSummary();
+
+                        ArrayList<String> stats = new ArrayList<>();
+                        Log.i(App.TAG, "tempString = " + tempString);
+                        stats.add(tempString);
+                        Log.i(App.TAG, "weather = " + weather);
+                        stats.add(weather);
+                        Log.i(App.TAG, "icon = " + icon);
+                        stats.add(icon);
+                        CityHashHolder.setStats(cityName, stats);
+
                     }
-                    catch ( InterruptedException e)
+                    catch (IOException e)
                     {
                         e.printStackTrace();
                     }
-                    MainWeatherData weatherData = response.body();
-                    String icon = weatherData.getCurrently().getIcon();
-
-                    Double celsiumTemp = weatherData.getCurrently().getTemperature();
-                    String tempString;
-                    if (celsiumTemp > 0.0)
-                        tempString = String.format("+" + "%.1f" + " C", celsiumTemp);
-                    else
-                        tempString = String.format("%.1f" + " C", celsiumTemp);
-
-                    String weather = weatherData.getCurrently().getSummary();
-
-                    /*
-                    double lat = weatherData.getLatitude();
-                    double lon = weatherData.getLongitude();
-                    callTimezoneServer(lat, lon);
-                    */
-
-                    ArrayList<String> callResults = new ArrayList<>();
-                    Controller.callUpdateCity(cityName);
-                    callResults.add(tempString);
-                    callResults.add(weather);
-                    callResults.add(icon);
-                    Controller.callUpdateWeather(callResults);
-                }
-
-                @Override
-                public void onFailure(Call<MainWeatherData> call, Throwable t) {
 
                 }
             });
-        }
 
-        private void callTimezoneServer(double lat, double lon)
-        {
-            TimezoneAPI timezoneAPI = RetrofitService.createService(TimezoneAPI.class);
-            timezoneAPI.getLocalTime(App.TIMEZONE_URL, App.TIMEZONE_KEY, "json",
-                    "position", lat, lon).enqueue(new retrofit2.Callback<TimezoneData>() {
-                @Override
-                public void onResponse(Call<TimezoneData> call, Response<TimezoneData> response) {
-                    String time = response.body().getFormatted();
-                    Controller.callTimeUpdate(time);
-                }
-
-                @Override
-                public void onFailure(Call<TimezoneData> call, Throwable t) {
-
-                }
-            });
+            t1.start();
+            t1.join();
         }
 
     }
@@ -124,6 +121,7 @@ public class ConnectionService extends Service
         super.onCreate();
         HandlerThread thread = new HandlerThread("ServiceStartArguments");
         thread.start();
+        Log.i(App.TAG, "Вызов onCreate");
 
         looper = thread.getLooper();
         mServiceHandler = new ServiceHandler(looper);
@@ -134,10 +132,11 @@ public class ConnectionService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         city = intent.getStringExtra("city");
+        Log.i(App.TAG, "Вызов onStartCommand, city = " + city);
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         mServiceHandler.handleMessage(msg);
 
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 }

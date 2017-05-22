@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,12 @@ public class RecyclerFragment extends Fragment
     private RecyclerView mCitiesRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton mFab;
-    private static Activity mActivity;
-    private static RecyclerAdapter adapter;
+    private Activity mActivity;
+    private RecyclerAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
-        mActivity = getActivity();
+
         super.onAttach(context);
     }
 
@@ -53,15 +54,16 @@ public class RecyclerFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setRecycler();
+        mActivity = getActivity();
+        setRecycler(mActivity);
     }
 
-    private void setRecycler()
+    private void setRecycler(Activity mActivity)
     {
         ArrayList<String> mDataset = Controller.getRecyclerDataSet();
         if (mDataset.isEmpty())
             Toast.makeText(mActivity, "Press button in the right-bottom to add cities", Toast.LENGTH_LONG).show();
-        adapter = new RecyclerAdapter(mDataset);
+        adapter = new RecyclerAdapter(mDataset, mActivity);
         /*if (mDataset.size() > 0)
             ((FragmentCallback)mActivity).fragmentCallback(RequestCode.UPDATE_WEATHER, mDataset.get(0));*/
         mCitiesRecycler.setAdapter(adapter);
@@ -88,31 +90,37 @@ public class RecyclerFragment extends Fragment
     private static class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
     {
         private ArrayList<String> mDataset;
+        private Activity mActivity;
 
         static class ViewHolder extends RecyclerView.ViewHolder
         {
             TextView myTextView;
             CardView cardView;
+            Activity mActivity;
 
             private View.OnClickListener mOnclickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.i(App.TAG, "Вызов листнера ресайкла");
                     TextView clickedTextView = (TextView) v.findViewById(R.id.item_text);
                     String cityName = clickedTextView.getText().toString();
+                    Log.i(App.TAG, "Получаем название города: " + cityName);
                     ((MainActivity) mActivity).fragmentCallback(RequestCode.CALL_WEATHER, cityName);
                 }
             };
 
-            ViewHolder(View v) {
+            ViewHolder(View v, Activity mActivity) {
                 super(v);
+                this.mActivity = mActivity;
                 v.setOnClickListener(mOnclickListener);
                 cardView = (CardView) v.findViewById(R.id.cardViewItem);
                 myTextView = (TextView) v.findViewById(R.id.item_text);
             }
         }
 
-        RecyclerAdapter(ArrayList<String> dataset) {
+        RecyclerAdapter(ArrayList<String> dataset, Activity mActivity) {
             mDataset = dataset;
+            this.mActivity = mActivity;
         }
 
         @Override
@@ -121,7 +129,7 @@ public class RecyclerFragment extends Fragment
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_item, parent, false);
 
-            return new ViewHolder(v);
+            return new ViewHolder(v, mActivity);
         }
 
         @Override
@@ -136,7 +144,7 @@ public class RecyclerFragment extends Fragment
 
     }
 
-    private static ItemTouchHelper.SimpleCallback recyclerItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    private ItemTouchHelper.SimpleCallback recyclerItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             return false;

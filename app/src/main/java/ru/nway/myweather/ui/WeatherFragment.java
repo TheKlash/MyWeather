@@ -3,18 +3,24 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.model.weather.Currently;
+import ru.nway.myweather.ui.details.CurrentlyFragment;
+import ru.nway.myweather.ui.details.DailyFragment;
+import ru.nway.myweather.ui.details.HourlyFragment;
 import ru.nway.myweather.util.RequestCode;
 
 public class WeatherFragment extends Fragment
@@ -26,6 +32,15 @@ public class WeatherFragment extends Fragment
     private TextView mWeatherTextView;
     private Activity mActivity;
     private static String cityName;
+    private Button mUpdateButton;
+    private FragmentManager fragmentManager;
+    private FragmentTabHost mTabHost;
+    //CurrentlyFragment views
+    private TextView mWindSpeed;
+    private TextView mHumidity;
+    private TextView mPressure;
+    private TextView mVisibility;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +50,6 @@ public class WeatherFragment extends Fragment
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mActivity = getActivity();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -50,16 +64,41 @@ public class WeatherFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
+        mActivity = getActivity();
+        fragmentManager = mActivity.getFragmentManager();
+
+
         try
         {
             mCityTextView = (TextView)view.findViewById(R.id.cityTextView);
             mTimeTextView = (TextView)view.findViewById(R.id.timeTextView);
 
             mImageView = (ImageView)view.findViewById(R.id.imageView);
-            mImageView.setOnClickListener(imageOnClickListener);
 
-            mTemperatureTextView = (TextView)view.findViewById(R.id.temperatureTextView);
+            mUpdateButton = (Button)view.findViewById(R.id.updateButton);
+            mUpdateButton.setOnClickListener(updateButtonOnClickListener);
+
+            mTemperatureTextView = (TextView)view.findViewById(R.id.tempTextView);
             mWeatherTextView = (TextView)view.findViewById(R.id.weatherTextView);
+
+            mTabHost = (FragmentTabHost)view.findViewById(android.R.id.tabhost);
+            mTabHost.setup(mActivity, getChildFragmentManager(), android.R.id.tabcontent);
+
+            mTabHost.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+
+            mTabHost.addTab(mTabHost.newTabSpec("Currently").setIndicator("Currently"),
+                    CurrentlyFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec("Hourly").setIndicator("Hourly"),
+                    HourlyFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec("Daily").setIndicator("Daily"),
+                    DailyFragment.class, null);
+
+            //Initializing CurrentlyView views
+            mWindSpeed = (TextView)view.findViewById(R.id.windSpeedTextView);
+            mHumidity = (TextView)view.findViewById(R.id.humidityTextView);
+            mPressure = (TextView)view.findViewById(R.id.pressureTextView);
+            mVisibility = (TextView)view.findViewById(R.id.visibilityTextView);
+
 
         }
         catch (NullPointerException e)
@@ -72,7 +111,8 @@ public class WeatherFragment extends Fragment
 
     void updateCity(String city)
     {
-        mCityTextView.setText(city);
+        cityName = city;
+        mCityTextView.setText(cityName);
     }
 
     void updateTime(String time)
@@ -82,6 +122,7 @@ public class WeatherFragment extends Fragment
 
     void updateWeather(ArrayList<String> data)
     {
+        Log.i(App.TAG, "Вызываем updateWeather в WeatherFragment, data[0] = " + data.get(0));
         String temp = data.get(0);
         mTemperatureTextView.setText(temp);
         String weather = data.get(1);
@@ -126,17 +167,26 @@ public class WeatherFragment extends Fragment
         }
     }
 
-    View.OnClickListener imageOnClickListener = new View.OnClickListener() {
+    void updateCurrently(ArrayList<Double> currently)
+    {
+
+    }
+
+    void updateHourly(ArrayList<String> hourly)
+    {
+
+    }
+
+    void updateDaily(ArrayList<String> daily)
+    {
+
+    }
+
+    View.OnClickListener updateButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ((FragmentCallback)mActivity).fragmentCallback(RequestCode.UPDATE_WEATHER, cityName);
-        }
-    };
 
-    View.OnClickListener backOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ((FragmentCallback)mActivity).fragmentCallback(RequestCode.CALL_RECYCLER);
         }
     };
 }

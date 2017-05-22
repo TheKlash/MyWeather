@@ -28,7 +28,7 @@ public class Currently implements Serializable
     private double precipIntensityError;
     @SerializedName("precipProbability")
     @Expose
-    private int precipProbability;
+    private double precipProbability;
     @SerializedName("precipType")
     @Expose
     private String precipType;
@@ -162,11 +162,11 @@ public class Currently implements Serializable
         this.precipIntensityError = precipIntensityError;
     }
 
-    public int getPrecipProbability() {
+    public double getPrecipProbability() {
         return precipProbability;
     }
 
-    public void setPrecipProbability(int precipProbability) {
+    public void setPrecipProbability(double precipProbability) {
         this.precipProbability = precipProbability;
     }
 

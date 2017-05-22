@@ -20,6 +20,6 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="20px"
         android:layout_marginRight="20px"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        android:background="@drawable/add" />
 
 </android.support.design.widget.CoordinatorLayout>

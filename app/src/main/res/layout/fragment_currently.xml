@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Wind Speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/windSpeedLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="25sp" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/windSpeedTextView"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/humidityLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="25sp" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/humidityTextView"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Pressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pressureLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="25sp" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pressureTextView"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Visibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/visibilityLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="25sp" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/visibilityTextView"
+                android:layout_weight="1"
+                android:textSize="24sp" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

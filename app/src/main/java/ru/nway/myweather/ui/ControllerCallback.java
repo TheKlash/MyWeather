@@ -11,4 +11,7 @@ public interface ControllerCallback
     void updateWeather(ArrayList<String> result);
     void updateTime(String time);
     void udpateCity(String name);
+    void updateCurrently(ArrayList<Double> currently);
+    void updateHourly(ArrayList<String> hourly);
+    void updateDaily(ArrayList<String> daily);
 }

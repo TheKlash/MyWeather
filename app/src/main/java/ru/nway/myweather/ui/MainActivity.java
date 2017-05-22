@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
+
 import java.util.ArrayList;
+
+import ru.nway.myweather.App;
 import ru.nway.myweather.R;
-import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.util.RequestCode;
 
@@ -55,8 +58,27 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     }
 
     @Override
-    public void udpateCity(String name) {
+    public void udpateCity(String name)
+    {
         mWeatherFragment.updateCity(name);
+    }
+
+    @Override
+    public void updateCurrently(ArrayList<Double> currently)
+    {
+        mWeatherFragment.updateCurrently(currently);
+    }
+
+    @Override
+    public void updateHourly(ArrayList<String> hourly)
+    {
+        mWeatherFragment.updateHourly(hourly);
+    }
+
+    @Override
+    public void updateDaily(ArrayList<String> daily)
+    {
+        mWeatherFragment.updateDaily(daily);
     }
 
     public void fragmentCallback(int requestCode)
@@ -97,17 +119,18 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
         {
             case (RequestCode.CALL_WEATHER):
             {
+                Log.i(App.TAG, "Вызов fragmentCallback() в MainActivity (Request Code = CALL_WEATHER, сity = " + city +")");
                 startService(new Intent(this, ConnectionService.class).putExtra("city", city));
                 fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).addToBackStack("heh").commit();
                 break;
             }
             case (RequestCode.UPDATE_WEATHER):
             {
+                Log.i(App.TAG, "Вызов fragmentCallback() в MainActivity (Request Code = UPDATE_WEATHER, сity = " + city +")");
                 startService(new Intent(this, ConnectionService.class).putExtra("city", city));
                 break;
             }
         }
-
 
     }
 }
