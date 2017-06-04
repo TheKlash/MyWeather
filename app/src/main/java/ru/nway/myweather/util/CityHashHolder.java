@@ -19,13 +19,13 @@ import static com.google.android.gms.internal.zzt.TAG;
 
 public class CityHashHolder
 {
-    private static HashMap<String, double[]> citiesHash;
-    private static HashMap<String, ArrayList<String>> statsHash;
-    private static HashMap<String, double[]> currentlyHash;
-    private static HashMap<String, ArrayList<Datum_>> hourlyHash;
-    private static HashMap<String, ArrayList<Datum__>> dailyHash;
+    private HashMap<String, double[]> citiesHash;
+    private HashMap<String, ArrayList<String>> statsHash;
+    private HashMap<String, double[]> currentlyHash;
+    private HashMap<String, ArrayList<Datum_>> hourlyHash;
+    private HashMap<String, ArrayList<Datum__>> dailyHash;
 
-    static
+    public CityHashHolder()
     {
         citiesHash = new HashMap<>();
         statsHash = new HashMap<>();
@@ -34,20 +34,20 @@ public class CityHashHolder
         dailyHash = new HashMap<>();
     }
 
-    public static HashMap<String, double[]> getCitiesHash() {
+    public HashMap<String, double[]> getCitiesHash() {
         return citiesHash;
     }
 
-    public static void setCitiesHash(HashMap<String, double[]> citiesHash) {
-        CityHashHolder.citiesHash = citiesHash;
+    public void setCitiesHash(HashMap<String, double[]> citiesHash) {
+        this.citiesHash = citiesHash;
     }
 
-    public static double[] getCoords(String cityName)
+    public double[] getCoords(String cityName)
     {
         return citiesHash.get(cityName);
     }
 
-    public static void addCity(String cityName, double lat, double lon)
+    public void addCity(String cityName, double lat, double lon)
     {
         double[] coords = new double[2];
         coords[0] = lat;
@@ -58,14 +58,14 @@ public class CityHashHolder
                 " lon: " + lon);
     }
 
-    public static void removeCity(String cityName)
+    public void removeCity(String cityName)
     {
         citiesHash.remove(cityName);
         statsHash.remove(cityName);
         currentlyHash.remove(cityName);
     }
 
-    public static ArrayList<String> getStrings()
+    public ArrayList<String> getStrings()
     {
         ArrayList list = new ArrayList();
         for (Map.Entry<String, double[]> entry: citiesHash.entrySet())
@@ -76,7 +76,7 @@ public class CityHashHolder
         return list;
     }
 
-    public static void setStats(String cityName, ArrayList<String> stats)
+    public void setStats(String cityName, ArrayList<String> stats)
     {
         Log.i(App.TAG, "Вызов setStats, stats[0] = " + stats.get(0) + " cityName = " + cityName);
         Set<String> citiesSet = statsHash.keySet();
@@ -93,12 +93,12 @@ public class CityHashHolder
         }
     }
 
-    public static ArrayList<String> getStats(String cityName)
+    public ArrayList<String> getStats(String cityName)
     {
         return statsHash.get(cityName);
     }
 
-    public static void setCurrently(String cityName, double[] curr)
+    public void setCurrently(String cityName, double[] curr)
     {
         Set<String> citiesSet = statsHash.keySet();
         if (citiesSet.contains(cityName))
@@ -114,7 +114,7 @@ public class CityHashHolder
         }
     }
 
-    public static double[] getCurrently(String cityName)
+    public double[] getCurrently(String cityName)
     {
         return currentlyHash.get(cityName);
     }

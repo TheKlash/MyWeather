@@ -37,9 +37,6 @@ public class ConnectionService extends Service
             try
             {
                 callWeatherServer(city);
-                Controller.callUpdateCity(city);
-                Controller.callUpdateWeather(CityHashHolder.getStats(city));
-                Controller.callUpdateCurrently(CityHashHolder.getCurrently(city));
 
             }
             catch (InterruptedException e)
@@ -58,10 +55,15 @@ public class ConnectionService extends Service
                 @Override
                 public void run()
                 {
-                    double[] coord = CityHashHolder.getCoords(city);
+                    double[] coord;
+                    synchronized (App.hash)
+                    {
+                        coord = App.hash.getCoords(city);
+                    }
+
                     try {
                         WeatherApi weatherApi = RetrofitService.createService(WeatherApi.class);
-                        final MainWeatherData weatherData = weatherApi.getCurrentWeather(
+                        MainWeatherData weatherData = weatherApi.getCurrentWeather(
                                 App.WEATHER_KEY,
                                 coord[0],
                                 coord[1],
@@ -89,7 +91,10 @@ public class ConnectionService extends Service
                         stats.add(weather);
                         Log.i(App.TAG, "icon = " + icon);
                         stats.add(icon);
-                        CityHashHolder.setStats(cityName, stats);
+                        synchronized (App.hash)
+                        {
+                            App.hash.setStats(cityName, stats);
+                        }
 
                         //Getting data for CurrentFragment
                         double[] current = new double[4];
@@ -97,7 +102,10 @@ public class ConnectionService extends Service
                         current[1] = weatherData.getCurrently().getHumidity();
                         current[2] = weatherData.getCurrently().getPressure();
                         current[3] = weatherData.getCurrently().getVisibility();
-                        CityHashHolder.setCurrently(cityName, current);
+                        synchronized (App.hash)
+                        {
+                            App.hash.setCurrently(cityName, current);
+                        }
                     }
                     catch (IOException e)
                     {
@@ -109,6 +117,14 @@ public class ConnectionService extends Service
 
             t1.start();
             t1.join();
+
+            synchronized (App.hash)
+            {
+                Controller.callUpdateCity(city);
+                Controller.callUpdateWeather(App.hash.getStats(city));
+                Controller.callUpdateCurrently(App.hash.getCurrently(city));
+
+            }
         }
 
     }

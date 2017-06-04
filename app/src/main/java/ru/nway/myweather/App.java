@@ -2,6 +2,9 @@ package ru.nway.myweather;
 
 import android.app.Application;
 import android.content.Context;
+
+import ru.nway.myweather.util.CityHashHolder;
+
 /**
  * Created by Klash on 17.02.2017.
  */
@@ -26,6 +29,8 @@ public class App extends Application
     public static final String LANG = "en";
     public static final String UNITS = "si";
     public static final String TAG = "ЕБУЧИЙ БАГ";
+
+    public static final CityHashHolder hash = new CityHashHolder();
 
     @Override
     public void onCreate() {

@@ -20,6 +20,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     private RecyclerFragment mRecyclerFragment;
     private NewCityFragment mNewCityFragment;
     private WeatherFragment mWeatherFragment;
+    private String currentCityName;
 
     @Override
     protected void onRestart() {
@@ -49,25 +50,50 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     @Override
     public void updateWeather(ArrayList<String> result)
     {
-        mWeatherFragment.updateWeather(result);
+        try {
+            mWeatherFragment.updateWeather(result);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
+        }
     }
 
     @Override
     public void updateTime(String time)
     {
-        mWeatherFragment.updateTime(time);
+        try {
+            mWeatherFragment.updateTime(time);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void udpateCity(String name)
     {
-        mWeatherFragment.updateCity(name);
+        currentCityName = name;
+        try{
+            mWeatherFragment.updateCity(name);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, name); //костыль, десу
+        }
     }
 
     @Override
     public void updateCurrently(double[] currently)
     {
-        mWeatherFragment.updateCurrently(currently);
+        try {
+            mWeatherFragment.updateCurrently(currently);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
+        }
     }
 
 
@@ -111,6 +137,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             {
                 Log.i(App.TAG, "Вызов fragmentCallback() в MainActivity (Request Code = CALL_WEATHER, сity = " + city +")");
                 startService(new Intent(this, ConnectionService.class).putExtra("city", city));
+                //mWeatherFragment = new WeatherFragment();
                 fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).addToBackStack("heh").commit();
                 break;
             }

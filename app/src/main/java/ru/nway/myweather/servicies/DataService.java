@@ -65,7 +65,7 @@ public class DataService
                     {
                         e.printStackTrace();
                     }
-                    CityHashHolder.addCity(
+                    App.hash.addCity(
                             cityData[0],
                             lat,
                             lon
@@ -112,7 +112,7 @@ public class DataService
             os.write(write.getBytes());
             os.close();
 
-            CityHashHolder.addCity(city, lat, lon);
+            App.hash.addCity(city, lat, lon);
         }
 
         catch (IOException e)
@@ -124,8 +124,8 @@ public class DataService
     public static void removeCity(String cityName)
     {
         Context CONTEXT = App.getContext();
-        CityHashHolder.removeCity(cityName);
-        ArrayList<String> recordsList = CityHashHolder.getStrings();
+        App.hash.removeCity(cityName);
+        ArrayList<String> recordsList = App.hash.getStrings();
         citiesList.remove(cityName);
         try
         {
