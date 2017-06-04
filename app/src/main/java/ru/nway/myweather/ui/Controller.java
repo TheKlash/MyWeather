@@ -47,7 +47,7 @@ public class Controller {
         ((ControllerCallback)mActivity).updateWeather(result);
     }
 
-    public static void callUpdateCurrently(ArrayList<Double> currently)
+    public static void callUpdateCurrently(double[] currently)
     {
         ((ControllerCallback)mActivity).updateCurrently(currently);
     }

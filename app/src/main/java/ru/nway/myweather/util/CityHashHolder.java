@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import ru.nway.myweather.App;
+import ru.nway.myweather.model.weather.Datum_;
+import ru.nway.myweather.model.weather.Datum__;
 
 import static com.google.android.gms.internal.zzt.TAG;
 
@@ -19,11 +21,17 @@ public class CityHashHolder
 {
     private static HashMap<String, double[]> citiesHash;
     private static HashMap<String, ArrayList<String>> statsHash;
+    private static HashMap<String, double[]> currentlyHash;
+    private static HashMap<String, ArrayList<Datum_>> hourlyHash;
+    private static HashMap<String, ArrayList<Datum__>> dailyHash;
 
     static
     {
         citiesHash = new HashMap<>();
         statsHash = new HashMap<>();
+        currentlyHash = new HashMap<>();
+        hourlyHash = new HashMap<>();
+        dailyHash = new HashMap<>();
     }
 
     public static HashMap<String, double[]> getCitiesHash() {
@@ -53,6 +61,8 @@ public class CityHashHolder
     public static void removeCity(String cityName)
     {
         citiesHash.remove(cityName);
+        statsHash.remove(cityName);
+        currentlyHash.remove(cityName);
     }
 
     public static ArrayList<String> getStrings()
@@ -86,6 +96,27 @@ public class CityHashHolder
     public static ArrayList<String> getStats(String cityName)
     {
         return statsHash.get(cityName);
+    }
+
+    public static void setCurrently(String cityName, double[] curr)
+    {
+        Set<String> citiesSet = statsHash.keySet();
+        if (citiesSet.contains(cityName))
+        {
+            Log.i(App.TAG, "contains");
+            currentlyHash.remove(cityName);
+            currentlyHash.put(cityName, curr);
+        }
+        else
+        {
+            Log.i(App.TAG, "not contains");
+            currentlyHash.put(cityName, curr);
+        }
+    }
+
+    public static double[] getCurrently(String cityName)
+    {
+        return currentlyHash.get(cityName);
     }
 }
 

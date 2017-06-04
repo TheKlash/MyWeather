@@ -39,6 +39,7 @@ public class ConnectionService extends Service
                 callWeatherServer(city);
                 Controller.callUpdateCity(city);
                 Controller.callUpdateWeather(CityHashHolder.getStats(city));
+                Controller.callUpdateCurrently(CityHashHolder.getCurrently(city));
 
             }
             catch (InterruptedException e)
@@ -90,6 +91,13 @@ public class ConnectionService extends Service
                         stats.add(icon);
                         CityHashHolder.setStats(cityName, stats);
 
+                        //Getting data for CurrentFragment
+                        double[] current = new double[4];
+                        current[0] = weatherData.getCurrently().getWindSpeed();
+                        current[1] = weatherData.getCurrently().getHumidity();
+                        current[2] = weatherData.getCurrently().getPressure();
+                        current[3] = weatherData.getCurrently().getVisibility();
+                        CityHashHolder.setCurrently(cityName, current);
                     }
                     catch (IOException e)
                     {

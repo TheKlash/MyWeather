@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 import ru.nway.myweather.servicies.ConnectionService;
+import ru.nway.myweather.util.CityHashHolder;
 import ru.nway.myweather.util.RequestCode;
 
 public class MainActivity extends FragmentActivity implements FragmentCallback, ControllerCallback {
@@ -64,22 +65,11 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     }
 
     @Override
-    public void updateCurrently(ArrayList<Double> currently)
+    public void updateCurrently(double[] currently)
     {
         mWeatherFragment.updateCurrently(currently);
     }
 
-    @Override
-    public void updateHourly(ArrayList<String> hourly)
-    {
-        mWeatherFragment.updateHourly(hourly);
-    }
-
-    @Override
-    public void updateDaily(ArrayList<String> daily)
-    {
-        mWeatherFragment.updateDaily(daily);
-    }
 
     public void fragmentCallback(int requestCode)
     {
