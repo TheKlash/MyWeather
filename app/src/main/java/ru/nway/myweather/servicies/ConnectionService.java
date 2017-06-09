@@ -123,7 +123,6 @@ public class ConnectionService extends Service
                 Controller.callUpdateCity(city);
                 Controller.callUpdateWeather(App.hash.getStats(city));
                 Controller.callUpdateCurrently(App.hash.getCurrently(city));
-
             }
         }
 

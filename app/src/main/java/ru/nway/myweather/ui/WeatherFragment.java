@@ -43,19 +43,9 @@ public class WeatherFragment extends Fragment
     private FragmentManager fragmentManager;
     private FragmentTabHost mTabHost;
     //CurrentlyFragment views
-    private View currentlyView;
-    private View hourlyView;
-    private View dailyView;
-    private TextView mWindSpeed;
-    private TextView mHumidity;
-    private TextView mPressure;
-    private TextView mVisibility;
     private LayoutInflater layoutInflater;
-    //Bundles
-    private Bundle generalBundle; //for temperature, city, weather, etc.
-    private Bundle currentlyBundle;
-    private Bundle hourlyBundle;
-    private Bundle weatherBundle;
+    //Data for tabs
+    private double[] currentlyData;
 
 
     @Override
@@ -118,6 +108,7 @@ public class WeatherFragment extends Fragment
             e.printStackTrace();
         }
 
+        super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
@@ -188,50 +179,9 @@ public class WeatherFragment extends Fragment
 
 
 
-    void updateCurrently(double[] currently) throws NullPointerException
+    void updateCurrently(double[] currently) throws Exception
     {
-        currentlyView = mTabHost.getChildAt(0).getRootView();
-
-        mWindSpeed = (TextView)currentlyView.findViewById(R.id.windSpeedTextView);
-        mHumidity = (TextView)currentlyView.findViewById(R.id.humidityTextView);
-        mPressure = (TextView)currentlyView.findViewById(R.id.pressureTextView);
-        mVisibility = (TextView)currentlyView.findViewById(R.id.visibilityTextView);
-
-        mWindSpeed.setText(String.valueOf(currently[0]));
-        mHumidity.setText(String.valueOf(currently[1]));
-        mPressure.setText(String.valueOf(currently[2]));
-        mVisibility.setText(String.valueOf(currently[3]));
-
-        /*currentlyBundle = new Bundle();
-        currentlyBundle.putDouble("windSpeed", currently[0]);
-        currentlyBundle.putDouble("humidity", currently[1]);
-        currentlyBundle.putDouble("pressure", currently[2]);
-        currentlyBundle.putDouble("visibility", currently[3]);
-        */
-
-    }
-
-    private void updateCurrently()
-    {
-        /*
-        currentlyView = mTabHost.getChildAt(0).getRootView();
-
-        try {
-            mWindSpeed = (TextView) currentlyView.findViewById(R.id.windSpeedTextView);
-            mHumidity = (TextView) currentlyView.findViewById(R.id.humidityTextView);
-            mPressure = (TextView) currentlyView.findViewById(R.id.pressureTextView);
-            mVisibility = (TextView) currentlyView.findViewById(R.id.visibilityTextView);
-
-            mWindSpeed.setText(String.valueOf(currentlyBundle.getDouble("windSpeed")));
-            mHumidity.setText(String.valueOf(currentlyBundle.getDouble("humidity")));
-            mPressure.setText(String.valueOf(currentlyBundle.getDouble("pressure")));
-            mVisibility.setText(String.valueOf(currentlyBundle.getDouble("visibility")));
-
-        }catch (NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-        */
+        currentlyData = currently;
     }
 
     void updateHourly(ArrayList<String> hourly)
@@ -252,6 +202,7 @@ public class WeatherFragment extends Fragment
         }
     };
 
+    /*
     TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
         @Override
         public void onTabChanged(String tabId)
@@ -270,6 +221,12 @@ public class WeatherFragment extends Fragment
             }
         }
     };
+    */
+
+    public double[] getCurrentlyData()
+    {
+        return currentlyData;
+    }
 
     @Override
     public void onDestroy()
