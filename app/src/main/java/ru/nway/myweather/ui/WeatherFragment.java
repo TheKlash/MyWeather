@@ -16,11 +16,17 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
 import ru.nway.myweather.model.weather.Currently;
+import ru.nway.myweather.model.weather.Daily;
+import ru.nway.myweather.model.weather.Hourly;
+import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.ui.details.CurrentlyFragment;
 import ru.nway.myweather.ui.details.DailyFragment;
 import ru.nway.myweather.ui.details.HourlyFragment;
@@ -42,10 +48,10 @@ public class WeatherFragment extends Fragment
     private Button mUpdateButton;
     private FragmentManager fragmentManager;
     private FragmentTabHost mTabHost;
-    //CurrentlyFragment views
-    private LayoutInflater layoutInflater;
+    //This fragment's view
+    private View view;
     //Data for tabs
-    private double[] currentlyData;
+    public double[] currentlyData;
 
 
     @Override
@@ -71,13 +77,13 @@ public class WeatherFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
-        layoutInflater = getLayoutInflater(savedInstanceState);
-
         mActivity = getActivity();
         fragmentManager = mActivity.getFragmentManager();
 
         try
         {
+            this.view = view;
+
             mCityTextView = (TextView)view.findViewById(R.id.cityTextView);
             mTimeTextView = (TextView)view.findViewById(R.id.timeTextView);
 
@@ -100,7 +106,8 @@ public class WeatherFragment extends Fragment
             mTabHost.addTab(mTabHost.newTabSpec("Daily").setIndicator("Daily"),
                     DailyFragment.class, null);
 
-            //mTabHost.setOnTabChangedListener(onTabChangeListener);
+
+            mTabHost.setOnTabChangedListener(onTabChangeListener);
 
         }
         catch (NullPointerException e)
@@ -123,15 +130,20 @@ public class WeatherFragment extends Fragment
         mTimeTextView.setText(time);
     }
 
-    void updateWeather(ArrayList<String> data)
+    void update(MainWeatherData data)
     {
-        Log.i(App.TAG, "Вызываем updateWeather в WeatherFragment, data[0] = " + data.get(0));
-        String temp = data.get(0);
-        mTemperatureTextView.setText(temp);
-        String weather = data.get(1);
-        mWeatherTextView.setText(weather);
-        String icon = data.get(2);
+        Currently currently = data.getCurrently();
+        Hourly hourly = data.getHourly();
+        Daily daily = data.getDaily();
 
+        String temp = Double.toString(currently.getTemperature());
+        mTemperatureTextView.setText(temp);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd h:mm a");
+        String time = formatter.format(new Date((long)currently.getTime()*1000));
+        mTimeTextView.setText(time);
+
+        String icon = currently.getIcon();
         switch (icon)
         {
             case "clear-day":
@@ -169,30 +181,32 @@ public class WeatherFragment extends Fragment
                 break;
         }
 
-        //adding to SharedPreferences
-        editor = preferences.edit();
-        editor.putString("temp", temp);
-        editor.putString("weather", weather);
-        editor.putString("icon", icon);
-        editor.commit();
+        String weather = currently.getSummary();
+        mWeatherTextView.setText(weather);
+
+        currentlyData = new double[4];
+        currentlyData[0] = currently.getWindSpeed();
+        currentlyData[1] = currently.getHumidity();
+        currentlyData[2] = currently.getPressure();
+        currentlyData[3] = currently.getVisibility();
+        updateCurrentlyFragment();
     }
 
-
-
-    void updateCurrently(double[] currently) throws Exception
+    private void updateCurrentlyFragment()
     {
-        currentlyData = currently;
+        CurrentlyFragment fragment = (CurrentlyFragment)getChildFragmentManager().findFragmentByTag("Currently");
+        fragment.setData();
     }
 
-    void updateHourly(ArrayList<String> hourly)
-    {
 
-    }
+    TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
+        @Override
+        public void onTabChanged(String tabId)
+        {
+            updateCurrentlyFragment();
+        }
+    };
 
-    void updateDaily(ArrayList<String> daily)
-    {
-
-    }
 
     View.OnClickListener updateButtonOnClickListener = new View.OnClickListener() {
         @Override
@@ -202,31 +216,6 @@ public class WeatherFragment extends Fragment
         }
     };
 
-    /*
-    TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
-        @Override
-        public void onTabChanged(String tabId)
-        {
-            switch(tabId)
-            {
-                case "Currently":
-                {
-                    updateCurrently();
-                    break;
-                }
-
-                case "Hourly": {break;}
-                case "Daily": {break;}
-                default: Log.i("tabs", "wooops");
-            }
-        }
-    };
-    */
-
-    public double[] getCurrentlyData()
-    {
-        return currentlyData;
-    }
 
     @Override
     public void onDestroy()

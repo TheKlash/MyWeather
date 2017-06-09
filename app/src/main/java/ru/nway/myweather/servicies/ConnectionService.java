@@ -73,39 +73,11 @@ public class ConnectionService extends Service
 
                         Log.i(App.TAG, "Идем дальше");
 
-                        String icon = weatherData.getCurrently().getIcon();
-                        System.out.print(icon);
-                        Double celsiumTemp = weatherData.getCurrently().getTemperature();
-                        String tempString;
-                        if (celsiumTemp > 0.0)
-                            tempString = String.format("+" + "%.1f" + " C", celsiumTemp);
-                        else
-                            tempString = String.format("%.1f" + " C", celsiumTemp);
-
-                        String weather = weatherData.getCurrently().getSummary();
-
-                        ArrayList<String> stats = new ArrayList<>();
-                        Log.i(App.TAG, "tempString = " + tempString);
-                        stats.add(tempString);
-                        Log.i(App.TAG, "weather = " + weather);
-                        stats.add(weather);
-                        Log.i(App.TAG, "icon = " + icon);
-                        stats.add(icon);
                         synchronized (App.hash)
                         {
-                            App.hash.setStats(cityName, stats);
+                            App.hash.setStats(cityName, weatherData);
                         }
 
-                        //Getting data for CurrentFragment
-                        double[] current = new double[4];
-                        current[0] = weatherData.getCurrently().getWindSpeed();
-                        current[1] = weatherData.getCurrently().getHumidity();
-                        current[2] = weatherData.getCurrently().getPressure();
-                        current[3] = weatherData.getCurrently().getVisibility();
-                        synchronized (App.hash)
-                        {
-                            App.hash.setCurrently(cityName, current);
-                        }
                     }
                     catch (IOException e)
                     {
@@ -121,8 +93,7 @@ public class ConnectionService extends Service
             synchronized (App.hash)
             {
                 Controller.callUpdateCity(city);
-                Controller.callUpdateWeather(App.hash.getStats(city));
-                Controller.callUpdateCurrently(App.hash.getCurrently(city));
+                Controller.callUpdate(App.hash.getStats(city));
             }
         }
 

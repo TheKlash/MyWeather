@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.servicies.ConnectionService;
 import ru.nway.myweather.util.CityHashHolder;
 import ru.nway.myweather.util.RequestCode;
@@ -48,29 +49,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     }
 
     @Override
-    public void updateWeather(ArrayList<String> result)
-    {
-        try {
-            mWeatherFragment.updateWeather(result);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
-        }
-    }
-
-    @Override
-    public void updateTime(String time)
-    {
-        try {
-            mWeatherFragment.updateTime(time);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void udpateCity(String name)
     {
         currentCityName = name;
@@ -84,19 +62,21 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
         }
     }
 
+
     @Override
-    public void updateCurrently(double[] currently)
+    public void update(MainWeatherData data)
     {
-        try {
-            mWeatherFragment.updateCurrently(currently);
+        try
+        {
+            mWeatherFragment.update(data);
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
+            //this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
         }
-    }
 
+    }
 
     public void fragmentCallback(int requestCode)
     {

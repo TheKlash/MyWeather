@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import ru.nway.myweather.App;
 import ru.nway.myweather.R;
+import ru.nway.myweather.model.weather.MainWeatherData;
 import ru.nway.myweather.servicies.DataService;
 import ru.nway.myweather.util.RequestCode;
 
@@ -37,29 +38,15 @@ public class Controller {
         DataService.saveToFile(city, lat, lon);
     }
 
+
     public static void callUpdateCity(String city)
     {
         ((ControllerCallback)mActivity).udpateCity(city);
     }
 
-    public static void callUpdateWeather(ArrayList<String> result)
+    public static void callUpdate(MainWeatherData data)
     {
-        ((ControllerCallback)mActivity).updateWeather(result);
-    }
-
-    public static void callUpdateCurrently(double[] currently)
-    {
-        ((ControllerCallback)mActivity).updateCurrently(currently);
-    }
-
-    public static void callUpdateHourly(ArrayList<String> hourly)
-    {
-
-    }
-
-    public static void callUpdateDaily(ArrayList<String> daily)
-    {
-
+        ((ControllerCallback)mActivity).update(data);
     }
 
 }

@@ -25,17 +25,17 @@ public class CurrentlyFragment extends Fragment
 {
     private WeatherFragment weatherFragment;
     private double[] data;
-    private View hourlyView;
-    private View dailyView;
     private TextView mWindSpeed;
     private TextView mHumidity;
     private TextView mPressure;
     private TextView mVisibility;
+    private Bundle bundle;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bundle = savedInstanceState;
         setRetainInstance(true);
     }
 
@@ -55,17 +55,32 @@ public class CurrentlyFragment extends Fragment
     }
 
     @Override
-    public void onStart()
+    public void onPause()
     {
-        data = weatherFragment.getCurrentlyData();
+        super.onPause();
+    }
 
-        /*
+    @Override
+    public void onResume()
+    {
+        if (data != null)
+        {
+            setStats();
+        }
+        super.onResume();
+    }
+
+    public void setData()
+    {
+        this.data =  weatherFragment.currentlyData;
+        setStats();
+    }
+
+    private void setStats()
+    {
         mWindSpeed.setText(String.valueOf(data[0]));
         mHumidity.setText(String.valueOf(data[1]));
         mPressure.setText(String.valueOf(data[2]));
         mVisibility.setText(String.valueOf(data[3]));
-        */
-
-        super.onStart();
     }
 }
