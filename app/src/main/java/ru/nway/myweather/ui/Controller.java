@@ -38,7 +38,6 @@ public class Controller {
         DataService.saveToFile(city, lat, lon);
     }
 
-
     public static void callUpdateCity(String city)
     {
         ((ControllerCallback)mActivity).udpateCity(city);

@@ -22,6 +22,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     private NewCityFragment mNewCityFragment;
     private WeatherFragment mWeatherFragment;
     private String currentCityName;
+    private MainWeatherData mainWeatherData;
 
     @Override
     protected void onRestart() {
@@ -68,12 +69,13 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
     {
         try
         {
+            mainWeatherData = data;
             mWeatherFragment.update(data);
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            //this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
+            //this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); костыль, десу
         }
 
     }

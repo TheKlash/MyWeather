@@ -19,7 +19,8 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp" />
+                android:paddingLeft="25sp"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:text="TextView"
@@ -27,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/windSpeedTextView"
                 android:layout_weight="1"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -42,7 +44,8 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp" />
+                android:paddingLeft="25sp"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:text="TextView"
@@ -50,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/humidityTextView"
                 android:layout_weight="1"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -65,7 +69,8 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp" />
+                android:paddingLeft="25sp"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:text="TextView"
@@ -73,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/pressureTextView"
                 android:layout_weight="1"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -88,7 +94,8 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp" />
+                android:paddingLeft="25sp"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:text="TextView"
@@ -96,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/visibilityTextView"
                 android:layout_weight="1"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="@android:color/white"/>
         </TableRow>
     </TableLayout>
 </LinearLayout>
