@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="1"
+        android:title="Date format"
+        android:entries="@array/date_formats"
+        android:entryValues="@array/date_values"
+        android:key="date_format" />
+    <ListPreference
+        android:defaultValue="1"
+        android:title="Time format"
+        android:entries="@array/time_formats"
+        android:entryValues="@array/time_values"
+        android:key="time_format" />
+    <ListPreference
+        android:defaultValue="1"
+        android:title="Units"
+        android:entries="@array/units"
+        android:entryValues="@array/units_values"
+        android:key="units" />
+</PreferenceScreen>

@@ -41,9 +41,6 @@ import ru.nway.myweather.util.RequestCode;
 
 public class WeatherFragment extends Fragment
 {
-    //SharedPreferences for saving data
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
     //WeatherFragment proper
     private TextView mCityTextView;
     private TextView mTimeTextView;
@@ -77,12 +74,6 @@ public class WeatherFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        preferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
     }
 
     @Override
@@ -158,10 +149,10 @@ public class WeatherFragment extends Fragment
         hourly = data.getHourly();
         daily = data.getDaily();
 
-        String temp = Double.toString(currently.getTemperature());
+        String temp = Integer.toString((int)Math.round(currently.getTemperature())) + App.TEMP_POSTFX;
         mTemperatureTextView.setText(temp);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat(App.DATE_FORMAT_LONG + " " + App.TIME_FORMAT);
         String time = formatter.format(new Date((long)currently.getTime()*1000));
         mTimeTextView.setText(time);
 
@@ -238,12 +229,4 @@ public class WeatherFragment extends Fragment
         super.onResume();
     }
 
-    @Override
-    public void onDestroy()
-    {
-        editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-        super.onDestroy();
-    }
 }

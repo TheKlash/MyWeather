@@ -2,6 +2,7 @@ package ru.nway.myweather.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +32,7 @@ public class RecyclerFragment extends Fragment
     private FloatingActionButton mFab;
     private Activity mActivity;
     private RecyclerAdapter adapter;
+    //private FloatingActionButton mSettingsFab;
 
     @Override
     public void onAttach(Context context) {
@@ -47,6 +49,8 @@ public class RecyclerFragment extends Fragment
         mCitiesRecycler = (RecyclerView)view.findViewById(R.id.cities_recycler);
         mFab = (FloatingActionButton)view.findViewById(R.id.fab);
         mFab.setOnClickListener(fabOnClickListener);
+        //mSettingsFab = (FloatingActionButton)view.findViewById(R.id.settingsFab);
+        //mSettingsFab.setOnClickListener(settingsOnClickListener);
 
         return view;
     }
@@ -84,6 +88,13 @@ public class RecyclerFragment extends Fragment
         @Override
         public void onClick(View v) {
             ((FragmentCallback)mActivity).fragmentCallback(RequestCode.CALL_NEW_CITY);
+        }
+    };
+
+    View.OnClickListener settingsOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ((FragmentCallback)mActivity).fragmentCallback(RequestCode.CALL_SETTINGS);
         }
     };
 
@@ -141,7 +152,6 @@ public class RecyclerFragment extends Fragment
         public int getItemCount() {
             return mDataset.size();
         }
-
     }
 
     private ItemTouchHelper.SimpleCallback recyclerItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {

@@ -38,22 +38,4 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="or find location by GPS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchCityButton"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/GPSTextView"
-        android:textSize="24sp"
-        android:textAlignment="center" />
-
-    <Button
-        android:text="Find"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/GPSButton"
-        android:layout_below="@+id/GPSTextView"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

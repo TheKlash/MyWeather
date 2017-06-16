@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
         {
             case (RequestCode.CALL_NEW_CITY):
             {
-                fragmentManager.beginTransaction().replace(R.id.container_left, mNewCityFragment).addToBackStack("kek").commit();
+                fragmentManager.beginTransaction().replace(R.id.container_left, mNewCityFragment).addToBackStack("new_city").commit();
                 break;
             }
 
@@ -94,6 +94,15 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
             {
                 fragmentManager.beginTransaction().replace(R.id.container_left, mRecyclerFragment).commit();
                 break;
+            }
+
+            case (RequestCode.CALL_SETTINGS):
+            {
+                /*
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+                */
             }
         }
     }

@@ -65,7 +65,7 @@ public abstract class DetailRecyclerFragment extends Fragment
             HourlyDailyData data = mDataset.get(position);
 
             holder.mDetailCardTime.setText(data.getTime());
-            holder.mDetailCardTemp.setText(data.getTemp());
+            holder.mDetailCardTemp.setText(data.getTemp() + App.TEMP_POSTFX);
             holder.mDetailCardIcon.setImageResource(new IconPicker().pick(data.getIcon()));
         }
 

@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC2K6l4MLX2n6jDmdUYTjOG7AjzGZMg0eg" />
+            android:value="AIzaSyDHWIucHm96YUQTELbJB4czq6W6sWUrtug" />
 
         <activity android:name=".ui.MainActivity">
             <intent-filter>
@@ -24,10 +24,6 @@
         </activity>
 
         <service android:name=".servicies.ConnectionService" />
-
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

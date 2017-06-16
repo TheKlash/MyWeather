@@ -73,9 +73,9 @@ public class HourlyFragment extends DetailRecyclerFragment
         for (int i = 0; i < 24; i++)
         {
             Datum_ d = data.get(i);
-            SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+            SimpleDateFormat formatter = new SimpleDateFormat(App.TIME_FORMAT);
             String time = formatter.format(new Date((long)d.getTime()*1000));
-            String temp = Double.toString(d.getTemperature());
+            String temp = Integer.toString((int)Math.round(d.getTemperature()));
             String icon = d.getIcon();
 
             Log.i("parseData", time + " " + temp + " " + icon);

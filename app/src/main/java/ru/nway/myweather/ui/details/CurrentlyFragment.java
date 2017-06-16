@@ -79,7 +79,7 @@ public class CurrentlyFragment extends Fragment
     private void setStats()
     {
         mWindSpeed.setText(String.valueOf(data[0]));
-        mHumidity.setText(String.valueOf(data[1]));
+        mHumidity.setText(String.valueOf(data[1]*100)+"%");
         mPressure.setText(String.valueOf(data[2]));
         mVisibility.setText(String.valueOf(data[3]));
     }

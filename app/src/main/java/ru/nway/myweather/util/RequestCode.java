@@ -12,5 +12,6 @@ public class RequestCode
     public static final int CALL_RECYCLER = 4;
     public static final int ADD_NEW_CITY = 5;
     public static final int UPDATE_CITY_EXCEPTION = 6; //Will be used for fixing update bugs
+    public static final int CALL_SETTINGS = 7;
 }
 

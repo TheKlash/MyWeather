@@ -74,7 +74,7 @@ public class DailyFragment extends DetailRecyclerFragment
         ArrayList<HourlyDailyData> dataset = new ArrayList<>();
         for (Datum__ d: data)
         {
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMMM.d");
+            SimpleDateFormat formatter = new SimpleDateFormat(App.DATE_FORMAT_SHORT);
             String time = formatter.format(new Date((long)d.getTime()*1000));
             String temp = (int)Math.round(d.getTemperatureMin())
                     + "..."

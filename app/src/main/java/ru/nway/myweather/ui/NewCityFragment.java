@@ -29,7 +29,7 @@ public class NewCityFragment extends Fragment {
     private Button mOkButton;
     private Activity mActivity;
     private Button mSearchButton;
-    private Button mGPSButton;
+    //private Button mGPSButton;
     private String currentCityName;
     private double[] currentCoords;
 
@@ -51,7 +51,7 @@ public class NewCityFragment extends Fragment {
         mSearchButton = (Button)view.findViewById(R.id.searchCityButton);
         mSearchButton.setOnClickListener(searchButtonListener);
 
-        mGPSButton = (Button)view.findViewById(R.id.GPSButton);
+        //mGPSButton = (Button)view.findViewById(R.id.GPSButton);
 
         return view;
     }
@@ -62,7 +62,7 @@ public class NewCityFragment extends Fragment {
         currentCityName = "";
         currentCoords = new double[2];
         mSearchButton.setText("");
-        mGPSButton.setText("");
+        //mGPSButton.setText("");
         super.onPause();
     }
 
@@ -93,7 +93,6 @@ public class NewCityFragment extends Fragment {
                 Status status = PlaceAutocomplete.getStatus(mActivity, data);
                 Toast.makeText(mActivity, "PlaceAutocomplete.RESULT_ERROR", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, status.getStatusMessage());
-
             }
 
             else if (resultCode == RESULT_CANCELED)

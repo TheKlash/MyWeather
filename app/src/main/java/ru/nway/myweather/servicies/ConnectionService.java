@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import ru.nway.myweather.App;
 import ru.nway.myweather.model.weather.Currently;
@@ -43,11 +44,16 @@ public class ConnectionService extends Service
             {
                e.printStackTrace();
             }
+            catch (UnknownHostException e)
+            {
+                e.printStackTrace();
+
+            }
 
             stopSelf(msg.arg1);
         }
 
-        private void callWeatherServer(final String cityName) throws InterruptedException {
+        private void callWeatherServer(final String cityName) throws InterruptedException, UnknownHostException {
 
             Log.i(App.TAG, "Вызов callWeatherServer, cityName = " + cityName);
             Thread t1 = new Thread(new Runnable()
