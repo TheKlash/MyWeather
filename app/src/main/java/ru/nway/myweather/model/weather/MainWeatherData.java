@@ -21,6 +21,9 @@ public class MainWeatherData implements Serializable
     @SerializedName("currently")
     @Expose
     private Currently currently;
+    @SerializedName("offset")
+    @Expose
+    private int offset;
     @SerializedName("minutely")
     @Expose
     private Minutely minutely;
@@ -142,4 +145,11 @@ public class MainWeatherData implements Serializable
         this.flags = flags;
     }
 
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }

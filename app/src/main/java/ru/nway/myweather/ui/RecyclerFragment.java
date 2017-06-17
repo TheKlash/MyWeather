@@ -32,7 +32,7 @@ public class RecyclerFragment extends Fragment
     private FloatingActionButton mFab;
     private Activity mActivity;
     private RecyclerAdapter adapter;
-    //private FloatingActionButton mSettingsFab;
+    private FloatingActionButton mSettingsFab;
 
     @Override
     public void onAttach(Context context) {
@@ -49,8 +49,8 @@ public class RecyclerFragment extends Fragment
         mCitiesRecycler = (RecyclerView)view.findViewById(R.id.cities_recycler);
         mFab = (FloatingActionButton)view.findViewById(R.id.fab);
         mFab.setOnClickListener(fabOnClickListener);
-        //mSettingsFab = (FloatingActionButton)view.findViewById(R.id.settingsFab);
-        //mSettingsFab.setOnClickListener(settingsOnClickListener);
+        mSettingsFab = (FloatingActionButton)view.findViewById(R.id.settingsFab);
+        mSettingsFab.setOnClickListener(settingsOnClickListener);
 
         return view;
     }

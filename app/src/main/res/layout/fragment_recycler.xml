@@ -36,4 +36,19 @@
         app:fabSize="normal"
         app:rippleColor="@color/colorBgWeatherActivityNight" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id = "@+id/settingsFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settings"
+        android:layout_above="@id/fab"
+        app:fabSize="normal"
+        app:backgroundTint="@color/colorBgWeatherActivityDay"
+        android:layout_marginBottom="10px"
+        android:layout_marginRight="20px"
+        android:layout_alignParentRight="true"
+        />
+
+
+
 </RelativeLayout>

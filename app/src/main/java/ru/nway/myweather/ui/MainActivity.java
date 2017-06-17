@@ -98,11 +98,9 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
 
             case (RequestCode.CALL_SETTINGS):
             {
-                /*
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
-                */
             }
         }
     }

@@ -149,11 +149,31 @@ public class WeatherFragment extends Fragment
         hourly = data.getHourly();
         daily = data.getDaily();
 
+        /*
+        int offset = data.getOffset();
+        long offsetDifference = (offset - App.OFFSET);
+        currently.setTime((int)((long)currently.getTime() - offsetDifference));
+
+        cal = Calendar.getInstance();
+        for (Datum_ datum: hourly.getData())
+        {
+            datum.setTime(((int)cal.getTime().getTime()));
+            cal.add(Calendar.HOUR, 1);
+        }
+
+        cal = Calendar.getInstance();
+        for (Datum__ datum: daily.getData())
+        {
+            datum.setTime(((int)cal.getTime().getTime()));
+            cal.add(Calendar.DAY_OF_WEEK, 1);
+        }
+        */
+
         String temp = Integer.toString((int)Math.round(currently.getTemperature())) + App.TEMP_POSTFX;
         mTemperatureTextView.setText(temp);
 
         SimpleDateFormat formatter = new SimpleDateFormat(App.DATE_FORMAT_LONG + " " + App.TIME_FORMAT);
-        String time = formatter.format(new Date((long)currently.getTime()*1000));
+        String time = formatter.format(new Date((long)currently.getTime()));
         mTimeTextView.setText(time);
 
         String icon = currently.getIcon();

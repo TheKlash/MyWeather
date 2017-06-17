@@ -77,7 +77,7 @@ public class DailyFragment extends DetailRecyclerFragment
             SimpleDateFormat formatter = new SimpleDateFormat(App.DATE_FORMAT_SHORT);
             String time = formatter.format(new Date((long)d.getTime()*1000));
             String temp = (int)Math.round(d.getTemperatureMin())
-                    + "..."
+                    + ".."
                     + (int)Math.round(d.getApparentTemperatureMax());
             String icon = d.getIcon();
 

@@ -3,16 +3,20 @@ package ru.nway.myweather;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
+import ru.nway.myweather.ui.SettingsCallback;
 import ru.nway.myweather.util.CityHashHolder;
 
 /**
  * Created by Klash on 17.02.2017.
  */
 
-public class App extends Application
+public class App extends Application implements SettingsCallback
 {
     private static App instance;
 
@@ -38,6 +42,8 @@ public class App extends Application
     //SharedPreferences
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    //Current date and timezone offset
+    public static int OFFSET;
 
     public static final CityHashHolder hash = new CityHashHolder();
 
@@ -45,6 +51,15 @@ public class App extends Application
     public void onCreate() {
         instance = this;
         preferences = instance.getApplicationContext().getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        String[] keys = {"units", "time_format", "date_format"};
+        for (String key:keys)
+        {
+            varValuePicker(this.preferences, key);
+        }
+
+        TimeZone tz = TimeZone.getDefault();
+        Date now = new Date();
+        OFFSET = tz.getOffset(now.getTime());
         super.onCreate();
     }
 
@@ -58,38 +73,43 @@ public class App extends Application
         return this.editor;
     }
 
-    private SharedPreferences.OnSharedPreferenceChangeListener listener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-                {
-                    String value;
-                    switch (key)
-                    {
-                        case "units":
-                        {
-                            value = sharedPreferences.getString(key, "si");
-                            if (value.equals("us"))
-                                TEMP_POSTFX = "\u00b0F";
-                            else
-                                TEMP_POSTFX = "\u00b0C";
-                            UNITS = value;
-                            break;
-                        }
-                        case "time_format":
-                        {
-                            value = sharedPreferences.getString(key, "h:mm a");
-                            TIME_FORMAT = value;
-                            break;
-                        }
-                        case "date_format":
-                        {
-                            value = sharedPreferences.getString(key, "MMMM d");
-                            DATE_FORMAT_LONG = "EEEE " + value;
-                            DATE_FORMAT_SHORT = "E " +value;
-                            break;
-                        }
-                    }
-                }
-            };
+    @Override
+    public void settingsCallback(SharedPreferences sharedPreferences, String key)
+    {
+        String value = varValuePicker(sharedPreferences, key);
+        preferences.edit().putString(key, value).apply();
+    }
+
+    private String varValuePicker(SharedPreferences preferences, String key)
+    {
+        String value = "";
+        switch (key)
+        {
+            case "units":
+            {
+                value = preferences.getString(key, "si");
+                if (value.equals("us"))
+                    TEMP_POSTFX = "\u00b0F";
+                else
+                    TEMP_POSTFX = "\u00b0C";
+                UNITS = value;
+                break;
+            }
+            case "time_format":
+            {
+                value = preferences.getString(key, "h:mm a");
+                TIME_FORMAT = value;
+                break;
+            }
+            case "date_format":
+            {
+                value = preferences.getString(key, "MMMM d");
+                DATE_FORMAT_LONG = "EEEE " + value;
+                DATE_FORMAT_SHORT = "E " +value;
+                break;
+            }
+        }
+
+        return value;
+    }
 }
