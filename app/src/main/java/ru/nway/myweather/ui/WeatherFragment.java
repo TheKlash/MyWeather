@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 import ru.nway.myweather.App;
@@ -48,7 +48,7 @@ public class WeatherFragment extends Fragment
     private TextView mTemperatureTextView;
     private TextView mWeatherTextView;
     private Activity mActivity;
-    private static String cityName;
+    private String cityName;
     private Button mUpdateButton;
     private FragmentManager fragmentManager;
     private FragmentTabHost mTabHost;
@@ -58,8 +58,6 @@ public class WeatherFragment extends Fragment
     public double[] currentlyData;
     public ArrayList<Datum_> hourlyData;
     public ArrayList<Datum__> dailyData;
-    //Bundle
-    private Bundle weatherBundle;
     //Parsed MainWeatherData
     private Currently currently;
     private Hourly hourly;
@@ -68,6 +66,8 @@ public class WeatherFragment extends Fragment
     private CurrentlyFragment currentlyFragment;
     private HourlyFragment hourlyFragment;
     private DailyFragment dailyFragment;
+    //TimeZone
+    private TimeZone timeZone;
 
 
     @Override
@@ -89,11 +89,10 @@ public class WeatherFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
         mActivity = getActivity();
         fragmentManager = mActivity.getFragmentManager();
+        this.view = view;
 
         try
         {
-            this.view = view;
-
             mCityTextView = (TextView)view.findViewById(R.id.cityTextView);
             mTimeTextView = (TextView)view.findViewById(R.id.timeTextView);
 
@@ -110,12 +109,13 @@ public class WeatherFragment extends Fragment
             mTabHost.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
             mTabHost.addTab(mTabHost.newTabSpec("Currently").setIndicator("Currently"),
-            CurrentlyFragment.class, null);
+                    CurrentlyFragment.class, null);
             mTabHost.addTab(mTabHost.newTabSpec("Hourly").setIndicator("Hourly"),
                     HourlyFragment.class, null);
             mTabHost.addTab(mTabHost.newTabSpec("Daily").setIndicator("Daily"),
                     DailyFragment.class, null);
             mTabHost.setVerticalScrollBarEnabled(true);
+
         }
         catch (NullPointerException e)
         {
@@ -149,31 +149,14 @@ public class WeatherFragment extends Fragment
         hourly = data.getHourly();
         daily = data.getDaily();
 
-        /*
-        int offset = data.getOffset();
-        long offsetDifference = (offset - App.OFFSET);
-        currently.setTime((int)((long)currently.getTime() - offsetDifference));
-
-        cal = Calendar.getInstance();
-        for (Datum_ datum: hourly.getData())
-        {
-            datum.setTime(((int)cal.getTime().getTime()));
-            cal.add(Calendar.HOUR, 1);
-        }
-
-        cal = Calendar.getInstance();
-        for (Datum__ datum: daily.getData())
-        {
-            datum.setTime(((int)cal.getTime().getTime()));
-            cal.add(Calendar.DAY_OF_WEEK, 1);
-        }
-        */
+        timeZone = TimeZone.getTimeZone(data.getTimezone());
 
         String temp = Integer.toString((int)Math.round(currently.getTemperature())) + App.TEMP_POSTFX;
         mTemperatureTextView.setText(temp);
 
         SimpleDateFormat formatter = new SimpleDateFormat(App.DATE_FORMAT_LONG + " " + App.TIME_FORMAT);
-        String time = formatter.format(new Date((long)currently.getTime()));
+        formatter.setTimeZone(timeZone);
+        String time = formatter.format(new Date((long)currently.getTime()*1000));
         mTimeTextView.setText(time);
 
         String icon = currently.getIcon();
@@ -181,26 +164,21 @@ public class WeatherFragment extends Fragment
 
         String weather = currently.getSummary();
         mWeatherTextView.setText(weather);
-
-        weatherBundle = new Bundle(5);
-        weatherBundle.putString("cityName", cityName);
-        weatherBundle.putString("time", time);
-        weatherBundle.putString("temp", temp);
-        weatherBundle.putString("icon", icon);
-        weatherBundle.putString("weather", weather);
-
         updateCurrentlyFragment();
+        Log.d("CONGRATS", "you're reached the final base!");
     }
 
     public void updateCurrentlyFragment()
     {
         currentlyFragment = (CurrentlyFragment)getChildFragmentManager().findFragmentByTag("Currently");
 
-        currentlyData = new double[4];
+        currentlyData = new double[6];
         currentlyData[0] = currently.getWindSpeed();
         currentlyData[1] = currently.getHumidity();
         currentlyData[2] = currently.getPressure();
-        currentlyData[3] = currently.getVisibility();
+        currentlyData[3] = currently.getPrecipProbability();
+        currentlyData[4] = currently.getCloudCover();
+        currentlyData[5] = currently.getWindBearing();
 
         currentlyFragment.setData();
     }
@@ -219,6 +197,11 @@ public class WeatherFragment extends Fragment
         dailyFragment.setData();
     }
 
+    public TimeZone getTimeZone()
+    {
+        return timeZone;
+    }
+
     View.OnClickListener updateButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -233,20 +216,4 @@ public class WeatherFragment extends Fragment
             //updateDetails();
             }
     };
-
-    @Override
-    public void onResume()
-    {
-        if (weatherBundle != null)  //If we didn't call it from RecyclerVIew
-        {
-            WeatherFragment.cityName = (String) weatherBundle.get("cityName");
-            mCityTextView.setText(cityName);
-            mTimeTextView.setText((String) weatherBundle.get("time"));
-            mTemperatureTextView.setText((String) weatherBundle.get("temp"));
-            setIcon((String) weatherBundle.get("icon"));
-            mWeatherTextView.setText((String) weatherBundle.get("weather"));
-        }
-        super.onResume();
-    }
-
 }

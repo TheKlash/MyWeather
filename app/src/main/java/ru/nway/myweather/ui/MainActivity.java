@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
         catch (Exception e)
         {
             e.printStackTrace();
-            //this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); костыль, десу
+            this.fragmentCallback(RequestCode.UPDATE_CITY_EXCEPTION, currentCityName); //костыль, десу
         }
 
     }
@@ -92,7 +92,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
 
             case (RequestCode.CALL_RECYCLER):
             {
-                fragmentManager.beginTransaction().replace(R.id.container_left, mRecyclerFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.container_left, mRecyclerFragment).addToBackStack("recycler").commit();
                 break;
             }
 
@@ -128,7 +128,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallback, 
                 Log.i(App.TAG, "Вызов fragmentCallback() в MainActivity (Request Code = CALL_WEATHER, сity = " + city +")");
                 startService(new Intent(this, ConnectionService.class).putExtra("city", city));
                 mWeatherFragment = new WeatherFragment();
-                fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).addToBackStack("heh").commit();
+                fragmentManager.beginTransaction().replace(R.id.container_left, mWeatherFragment).addToBackStack("weather").commit();
                 break;
             }
             case (RequestCode.UPDATE_WEATHER):

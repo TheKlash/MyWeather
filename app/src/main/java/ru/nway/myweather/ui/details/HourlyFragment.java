@@ -74,6 +74,7 @@ public class HourlyFragment extends DetailRecyclerFragment
         {
             Datum_ d = data.get(i);
             SimpleDateFormat formatter = new SimpleDateFormat(App.TIME_FORMAT);
+            formatter.setTimeZone(weatherFragment.getTimeZone());
             String time = formatter.format(new Date((long)d.getTime()*1000));
             String temp = Integer.toString((int)Math.round(d.getTemperature()));
             String icon = d.getIcon();

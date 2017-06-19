@@ -35,15 +35,16 @@ public class App extends Application implements SettingsCallback
     //preferences
     public static String LANG = "en";
     public static String UNITS = "si";
-    public static String TEMP_POSTFX = "\u00b0C";
-    public static String DATE_FORMAT_LONG = "EEEE, MMMM d";
-    public static String DATE_FORMAT_SHORT = "E, MMMM d";
-    public static String TIME_FORMAT = "h:mm a";
+    public static String TEMP_POSTFX;
+    public static String DATE_FORMAT_LONG;
+    public static String DATE_FORMAT_SHORT;
+    public static String TIME_FORMAT;
     //SharedPreferences
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    //Current date and timezone offset
-    public static int OFFSET;
+    //Units
+    public static String WIND_UNIT;
+    public static String PRESSURE_UNIT;
 
     public static final CityHashHolder hash = new CityHashHolder();
 
@@ -57,9 +58,6 @@ public class App extends Application implements SettingsCallback
             varValuePicker(this.preferences, key);
         }
 
-        TimeZone tz = TimeZone.getDefault();
-        Date now = new Date();
-        OFFSET = tz.getOffset(now.getTime());
         super.onCreate();
     }
 
@@ -89,9 +87,17 @@ public class App extends Application implements SettingsCallback
             {
                 value = preferences.getString(key, "si");
                 if (value.equals("us"))
+                {
                     TEMP_POSTFX = "\u00b0F";
+                    WIND_UNIT = "Mph";
+                    PRESSURE_UNIT = "mb";
+                }
                 else
+                {
                     TEMP_POSTFX = "\u00b0C";
+                    WIND_UNIT = "mps";
+                    PRESSURE_UNIT = "hPa";
+                }
                 UNITS = value;
                 break;
             }

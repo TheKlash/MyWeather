@@ -15,14 +15,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDHWIucHm96YUQTELbJB4czq6W6sWUrtug" />
 
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SettingsActivity"/>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:screenOrientation="portrait"/>
 
 
         <service android:name=".servicies.ConnectionService" />

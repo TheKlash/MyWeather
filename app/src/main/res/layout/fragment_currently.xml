@@ -19,7 +19,7 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp"
+                android:paddingLeft="12sp"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -29,8 +29,36 @@
                 android:id="@+id/windSpeedTextView"
                 android:layout_weight="1"
                 android:textSize="24sp"
+                android:paddingRight="12sp"
                 android:textColor="@android:color/white"/>
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Wind direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/directionLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="12sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/directionTextView"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:paddingRight="12sp"
+                android:textColor="@android:color/white"/>
+        </TableRow>
+
 
         <TableRow
             android:layout_width="match_parent"
@@ -44,7 +72,7 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp"
+                android:paddingLeft="12sp"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -54,6 +82,7 @@
                 android:id="@+id/humidityTextView"
                 android:layout_weight="1"
                 android:textSize="24sp"
+                android:paddingRight="12sp"
                 android:textColor="@android:color/white"/>
         </TableRow>
 
@@ -69,7 +98,7 @@
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp"
+                android:paddingLeft="12sp"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -79,6 +108,7 @@
                 android:id="@+id/pressureTextView"
                 android:layout_weight="1"
                 android:textSize="24sp"
+                android:paddingRight="12sp"
                 android:textColor="@android:color/white"/>
         </TableRow>
 
@@ -87,14 +117,14 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:text="Visibility"
+                android:text="Precipitation Prob."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/visibilityLabel"
                 android:layout_weight="1"
                 android:textSize="24sp"
                 android:textAlignment="textStart"
-                android:paddingLeft="25sp"
+                android:paddingLeft="12sp"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -104,7 +134,35 @@
                 android:id="@+id/visibilityTextView"
                 android:layout_weight="1"
                 android:textSize="24sp"
+                android:paddingRight="12sp"
                 android:textColor="@android:color/white"/>
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="Cloud Cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/coverLabel"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="textStart"
+                android:paddingLeft="12sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/coverTextView"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:paddingRight="12sp"
+                android:textColor="@android:color/white"/>
+        </TableRow>
+
     </TableLayout>
 </LinearLayout>
